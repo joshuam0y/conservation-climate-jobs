@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+<title>Conservation & Climate Jobs Tracker</title>
+
+<style>
+  :root {
+    color-scheme: light;
+    --bg: #FAF9F5; --surface: #ffffff; --surface-2: #F2F1EA;
+    --ink: #1C231F; --ink-dim: #55605A; --ink-muted: #8A9289;
+    --border: rgba(28,35,31,0.10); --shadow: 0 1px 2px rgba(28,35,31,.06), 0 8px 20px rgba(28,35,31,.06);
+    --accent: #1F6F4A; --accent-bg: rgba(31,111,74,0.10);
+    --cat-conservation_biology: #1baf7a; --cat-environmental_justice: #eb6834;
+    --cat-climate_policy: #2a78d6; --cat-other: #4a3aa7;
+    --header-grad: linear-gradient(135deg, #123B2A, #1F6F4A);
+  }
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      color-scheme: dark;
+      --bg: #101511; --surface: #171D18; --surface-2: #1E2620;
+      --ink: #F2F4F1; --ink-dim: #B7C0BA; --ink-muted: #7C8880;
+      --border: rgba(255,255,255,0.09); --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 20px rgba(0,0,0,.35);
+      --accent: #3FAE7C; --accent-bg: rgba(63,174,124,0.16);
+      --cat-conservation_biology: #199e70; --cat-environmental_justice: #d95926;
+      --cat-climate_policy: #3987e5; --cat-other: #9085e9;
+      --header-grad: linear-gradient(135deg, #08150F, #113322);
+    }
+  }
+  :root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #101511; --surface: #171D18; --surface-2: #1E2620;
+    --ink: #F2F4F1; --ink-dim: #B7C0BA; --ink-muted: #7C8880;
+    --border: rgba(255,255,255,0.09); --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 20px rgba(0,0,0,.35);
+    --accent: #3FAE7C; --accent-bg: rgba(63,174,124,0.16);
+    --cat-conservation_biology: #199e70; --cat-environmental_justice: #d95926;
+    --cat-climate_policy: #3987e5; --cat-other: #9085e9;
+    --header-grad: linear-gradient(135deg, #08150F, #113322);
+  }
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; }
+  body { background: var(--bg); color: var(--ink); font-family: -apple-system, "Segoe UI", system-ui, sans-serif; }
+  .page { max-width: 1080px; margin: 0 auto; padding: 0 20px 60px; }
+
+  .header-band { background: var(--header-grad); color: #fff; padding: 28px 24px; border-radius: 0 0 20px 20px; margin-bottom: 20px; }
+  .header-inner { max-width: 1080px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
+  .header-band h1 { margin: 0 0 6px; font-size: 24px; letter-spacing: -0.01em; }
+  .header-band p { margin: 0; color: rgba(255,255,255,0.82); font-size: 14px; max-width: 60ch; line-height: 1.5; }
+  .meta-line { margin-top: 8px; font-size: 12.5px; color: rgba(255,255,255,0.7); }
+  .theme-toggle {
+    background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3);
+    border-radius: 999px; padding: 7px 14px; font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: inherit;
+  }
+  .theme-toggle:hover { background: rgba(255,255,255,0.25); }
+
+  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 18px; }
+  .stat-tile { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; box-shadow: var(--shadow); border-top: 3px solid var(--accent); }
+  .stat-value { font-size: 21px; font-weight: 700; }
+  .stat-label { font-size: 11.5px; color: var(--ink-muted); margin-top: 2px; }
+
+  .toolbar {
+    position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 10px 0 12px;
+    display: flex; flex-wrap: wrap; gap: 8px; align-items: center; border-bottom: 1px solid var(--border); margin-bottom: 16px;
+  }
+  .filter-pill {
+    background: var(--surface); border: 1px solid var(--border); color: var(--ink-dim);
+    border-radius: 999px; padding: 7px 14px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;
+  }
+  .filter-pill.on { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .search-box {
+    flex: 1; min-width: 160px; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--border);
+    background: var(--surface); color: var(--ink); font-size: 13px; font-family: inherit;
+  }
+  .toggle-2027, .toggle-intern { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--ink-dim); }
+  #resultCount { font-size: 12.5px; color: var(--ink-muted); width: 100%; margin-top: 2px; }
+
+  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
+  .card {
+    display: block; background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
+    padding: 14px 16px; box-shadow: var(--shadow); text-decoration: none; color: inherit;
+    transition: transform .08s, box-shadow .08s;
+  }
+  .card:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,.08), 0 14px 26px rgba(0,0,0,.10); }
+  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
+  .badge { font-size: 10.5px; font-weight: 700; letter-spacing: .02em; border-radius: 999px; padding: 3px 9px; color: #fff; white-space: nowrap; }
+  .badge-2027 { background: var(--accent-bg); color: var(--accent); }
+  .badge-intern { background: var(--surface-2); color: var(--ink-dim); border: 1px solid var(--border); }
+  .card-title { font-size: 15.5px; font-weight: 700; margin: 0 0 4px; line-height: 1.3; color: var(--ink); }
+  .card-meta { font-size: 12.5px; color: var(--ink-dim); margin-bottom: 6px; }
+  .card-summary { font-size: 12.5px; color: var(--ink-dim); line-height: 1.5; margin: 0 0 8px; }
+  .card-footer { font-size: 11.5px; color: var(--ink-muted); border-top: 1px dashed var(--border); padding-top: 8px; }
+  .src-badge { background: var(--surface-2); border-radius: 6px; padding: 1px 6px; font-weight: 600; }
+
+  .empty-state { text-align: center; padding: 60px 20px; color: var(--ink-muted); }
+  footer.site-footer { margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 12px; color: var(--ink-muted); line-height: 1.6; }
+  footer.site-footer a { color: var(--accent); }
+
+  @media (max-width: 560px) {
+    .header-inner { flex-direction: column; }
+    .grid { grid-template-columns: 1fr; }
+  }
+</style>
+
+</head>
+<body>
+  <div class="header-band">
+    <div class="header-inner">
+      <div>
+        <h1>Conservation &amp; Climate Jobs Tracker</h1>
+        <p>Internships, fellowships, and entry-level roles in conservation biology, environmental justice,
+           and climate policy &mdash; pulled automatically from multiple job sites and refreshed on a schedule,
+           with a highlight for anything that mentions Summer 2027.</p>
+        <div class="meta-line">Sources checked: Idealist.org &middot; Last updated August 27, 2026 at 5:14 PM UTC</div>
+      </div>
+      <button type="button" class="theme-toggle" id="themeToggle">Switch to dark</button>
+    </div>
+  </div>
+  <div class="page">
+    <div class="stats-row"><div class="stat-tile"><div class="stat-value">7</div><div class="stat-label">Total listings</div></div><div class="stat-tile"><div class="stat-value">0</div><div class="stat-label">Conservation Biology</div></div><div class="stat-tile"><div class="stat-value">0</div><div class="stat-label">Environmental Justice</div></div><div class="stat-tile"><div class="stat-value">0</div><div class="stat-label">Climate Policy</div></div><div class="stat-tile"><div class="stat-value">1</div><div class="stat-label">Internship / entry-level tagged</div></div><div class="stat-tile"><div class="stat-value">0</div><div class="stat-label">Mention Summer 2027</div></div></div>
+    <div class="toolbar">
+      <button type="button" class="filter-pill on" data-category="all">All</button><button type="button" class="filter-pill" data-category="conservation_biology">Conservation Biology</button><button type="button" class="filter-pill" data-category="environmental_justice">Environmental Justice</button><button type="button" class="filter-pill" data-category="climate_policy">Climate Policy</button><button type="button" class="filter-pill" data-category="other">Other Environmental</button>
+      <input type="text" id="searchBox" class="search-box" placeholder="Search title, organization, location...">
+      <label class="toggle-2027"><input type="checkbox" id="only2027"> Only show Summer 2027 mentions</label>
+      <label class="toggle-intern"><input type="checkbox" id="onlyIntern"> Only show internship/entry-level tagged</label>
+      <div id="resultCount"></div>
+    </div>
+    <div class="grid">
+    <a class="card" href="https://www.idealist.org/en/nonprofit-job/ff69e2d54fd4421aba02407ab5194203-ocean-associate-environment-america-boston" target="_blank" rel="noopener"
+       data-category="other" data-search="ocean associate environment america hybrid · boston, ma · full time · usd $40,000 / year"
+       data-2027="0" data-intern="0">
+      <div class="card-top">
+        <span class="badge badge-cat" style="background:var(--cat-other)">Other Environmental</span>
+        
+        
+      </div>
+      <h3 class="card-title">Ocean Associate</h3>
+      <div class="card-meta">Environment America &middot; Hybrid · Boston, MA · Full Time · USD $40,000 / year</div>
+      
+      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 22, 2026</div>
+    </a>
+    
+    <a class="card" href="https://www.idealist.org/en/nonprofit-job/d46af460d9074f7587f0b8662e6ad080-senior-global-warming-campaign-director-environment-america-boston" target="_blank" rel="noopener"
+       data-category="other" data-search="senior global warming campaign director environment america hybrid · boston, ma · full time · usd $42,000 - $60,000 / year"
+       data-2027="0" data-intern="0">
+      <div class="card-top">
+        <span class="badge badge-cat" style="background:var(--cat-other)">Other Environmental</span>
+        
+        
+      </div>
+      <h3 class="card-title">Senior Global Warming Campaign Director</h3>
+      <div class="card-meta">Environment America &middot; Hybrid · Boston, MA · Full Time · USD $42,000 - $60,000 / year</div>
+      
+      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 15, 2026</div>
+    </a>
+    
+    <a class="card" href="https://www.idealist.org/en/nonprofit-job/f14c8286c4984b6083879af1995570d1-nonprofit-advocacy-jobs-environment-america-boston" target="_blank" rel="noopener"
+       data-category="other" data-search="nonprofit advocacy jobs environment america on-site · boston, ma · full time · usd $18 - $22 / hour"
+       data-2027="0" data-intern="0">
+      <div class="card-top">
+        <span class="badge badge-cat" style="background:var(--cat-other)">Other Environmental</span>
+        
+        
+      </div>
+      <h3 class="card-title">Nonprofit Advocacy Jobs</h3>
+      <div class="card-meta">Environment America &middot; On-site · Boston, MA · Full Time · USD $18 - $22 / hour</div>
+      
+      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 8, 2026</div>
+    </a>
+    
+    <a class="card" href="https://www.idealist.org/en/nonprofit-job/0110ed0c3a844f7cb3cf1f085771a82e-field-office-director-environment-america-boston" target="_blank" rel="noopener"
+       data-category="other" data-search="field office director environment america on-site · boston, ma · full time · usd $40,000 - $53,750 / year"
+       data-2027="0" data-intern="0">
+      <div class="card-top">
+        <span class="badge badge-cat" style="background:var(--cat-other)">Other Environmental</span>
+        
+        
+      </div>
+      <h3 class="card-title">Field Office Director</h3>
+      <div class="card-meta">Environment America &middot; On-site · Boston, MA · Full Time · USD $40,000 - $53,750 / year</div>
+      
+      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 8, 2026</div>
+    </a>
+    
+    <a class="card" href="https://www.idealist.org/en/nonprofit-job/e87573e1aa3e4757bd1332830154b92a-shareholder-advocate-for-environmentally-responsible-mutual-fund-the-public-interest-network-boston" target="_blank" rel="noopener"
+       data-category="other" data-search="shareholder advocate for environmentally responsible mutual fund the public interest network hybrid · boston, ma · full time · usd $40,000 - $46,000 / year"
+       data-2027="0" data-intern="0">
+      <div class="card-top">
+        <span class="badge badge-cat" style="background:var(--cat-other)">Other Environmental</span>
+        
+        
+      </div>
+      <h3 class="card-title">Shareholder Advocate for Environmentally Responsible Mutual Fund</h3>
+      <div class="card-meta">The Public Interest Network &middot; Hybrid · Boston, MA · Full Time · USD $40,000 - $46,000 / year</div>
+      
+      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 8, 2026</div>
+    </a>
+    
+    <a class="card" href="https://www.idealist.org/en/nonprofit-internship/32858ef963bc446caed2e99ccc07fe1d-charlotte-e-ray-legal-fellowship-the-conservation-law-foundation-boston" target="_blank" rel="noopener"
+       data-category="other" data-search="charlotte e. ray legal fellowship the conservation law foundation hybrid · massachusetts, us"
+       data-2027="0" data-intern="1">
+      <div class="card-top">
+        <span class="badge badge-cat" style="background:var(--cat-other)">Other Environmental</span>
+        <span class="badge badge-intern">INTERNSHIP / ENTRY-LEVEL</span>
+        
+      </div>
+      <h3 class="card-title">Charlotte E. Ray Legal Fellowship</h3>
+      <div class="card-meta">The Conservation Law Foundation &middot; Hybrid · Massachusetts, US</div>
+      
+      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 6, 2026</div>
+    </a>
+    
+    <a class="card" href="https://www.idealist.org/en/nonprofit-job/5e77f7324b4e4962b4f562ee92bc9649-conservation-organizer-environment-america-boston" target="_blank" rel="noopener"
+       data-category="other" data-search="conservation organizer environment america hybrid · boston, ma · full time · usd $39,750 - $46,000 / year"
+       data-2027="0" data-intern="0">
+      <div class="card-top">
+        <span class="badge badge-cat" style="background:var(--cat-other)">Other Environmental</span>
+        
+        
+      </div>
+      <h3 class="card-title">Conservation Organizer</h3>
+      <div class="card-meta">Environment America &middot; Hybrid · Boston, MA · Full Time · USD $39,750 - $46,000 / year</div>
+      
+      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 1, 2026</div>
+    </a>
+    </div>
+    <div class="empty-state" id="emptyState" style="display:none">No listings match these filters right now &mdash; try clearing the search or picking a different category.</div>
+    <footer class="site-footer">
+      Built as a personal aggregator &mdash; every card links straight to the original posting on its source
+      site, nothing is hosted here beyond a short summary. Categorization is automatic (keyword-based) and
+      can occasionally miscategorize or miss a listing; when in doubt, check the source site directly.
+      Refreshes automatically on a schedule &mdash; see the
+      <a href="https://github.com/joshuam0y/conservation-climate-jobs" target="_blank" rel="noopener">README</a>
+      for how this works and how to add more sources.
+    </footer>
+  </div>
+
+<script>
+function initTheme() {
+  const saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+  const btn = document.getElementById('themeToggle');
+  function label() {
+    const cur = document.documentElement.getAttribute('data-theme');
+    const dark = cur ? cur === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    btn.textContent = dark ? 'Switch to light' : 'Switch to dark';
+  }
+  btn.addEventListener('click', function () {
+    const cur = document.documentElement.getAttribute('data-theme');
+    const dark = cur ? cur === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+    const next = dark ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+    label();
+  });
+  label();
+}
+
+let activeCategory = 'all';
+function applyFilters() {
+  const search = document.getElementById('searchBox').value.trim().toLowerCase();
+  const only2027 = document.getElementById('only2027').checked;
+  const onlyIntern = document.getElementById('onlyIntern').checked;
+  let visible = 0;
+  document.querySelectorAll('.card').forEach(function (card) {
+    let show = true;
+    if (activeCategory !== 'all' && card.dataset.category !== activeCategory) show = false;
+    if (only2027 && card.dataset['2027'] !== '1') show = false;
+    if (onlyIntern && card.dataset.intern !== '1') show = false;
+    if (search && card.dataset.search.indexOf(search) === -1) show = false;
+    card.style.display = show ? '' : 'none';
+    if (show) visible++;
+  });
+  document.getElementById('resultCount').textContent = visible + ' listing' + (visible === 1 ? '' : 's') + ' shown';
+  const empty = document.getElementById('emptyState');
+  if (empty) empty.style.display = visible === 0 ? 'block' : 'none';
+}
+
+document.addEventListener('DOMContentLoaded', function () {
+  initTheme();
+  document.querySelectorAll('.filter-pill').forEach(function (pill) {
+    pill.addEventListener('click', function () {
+      document.querySelectorAll('.filter-pill').forEach(function (p) { p.classList.remove('on'); });
+      pill.classList.add('on');
+      activeCategory = pill.dataset.category;
+      applyFilters();
+    });
+  });
+  document.getElementById('searchBox').addEventListener('input', applyFilters);
+  document.getElementById('only2027').addEventListener('change', applyFilters);
+  document.getElementById('onlyIntern').addEventListener('change', applyFilters);
+  applyFilters();
+});
+</script>
+
+</body></html>

@@ -1,0 +1,101 @@
+name: Refresh listings
+
+# Twice a day is plenty -- job postings change over days, not minutes, so
+# there's no reason to chase a tight cadence here. (A sibling project
+# learned this the hard way tightening its own cron to every 5 minutes:
+# GitHub's scheduler doesn't reliably honor sub-15-minute cadences at all,
+# and actual run gaps grew to 11+ hours instead of getting faster.)
+# Offset a few minutes past the hour, not exactly on it, since GitHub
+# explicitly documents that scheduled runs are delayed most at
+# round-number times.
+on:
+  schedule:
+    - cron: "13 8,20 * * *"
+  workflow_dispatch: {}
+
+concurrency:
+  group: refresh
+  cancel-in-progress: true
+
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+
+jobs:
+  refresh:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      # Only chromium (not the full webkit/firefox set Playwright supports)
+      # -- this project only ever launches p.chromium.launch() in
+      # pull/idealist.py, so installing the others would just be wasted
+      # CI time on every run.
+      - name: Install Playwright's Chromium browser
+        run: python -m playwright install --with-deps chromium
+
+      - name: Run scrapers and rebuild the site
+        env:
+          USAJOBS_API_KEY: ${{ secrets.USAJOBS_API_KEY }}
+          USAJOBS_EMAIL: ${{ secrets.USAJOBS_EMAIL }}
+        run: python pull/build.py
+
+      - name: Commit updated data + site
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add listings.db docs/
+          git diff --cached --quiet && exit 0
+          git commit -m "Refresh listings"
+          # listings.db is the persistent cross-run store (first_seen dates,
+          # active/inactive state) -- same reasoning as a sibling project's
+          # committed monitor.db. A rebase conflict here just means another
+          # run's own regeneration landed first, not a real disagreement
+          # worth resolving by hand -- retry a few times, aborting any
+          # stuck rebase first, rather than failing the whole job (and
+          # skipping the Pages deploy) on an ordinary race.
+          success=false
+          for i in 1 2 3 4 5; do
+            git rebase --abort >/dev/null 2>&1 || true
+            if git pull --rebase -X theirs origin main && git push; then
+              success=true
+              break
+            fi
+            echo "Push attempt $i failed, retrying..."
+            sleep 5
+          done
+          git rebase --abort >/dev/null 2>&1 || true
+          if [ "$success" != true ]; then
+            echo "::error::Could not push after 5 attempts."
+            exit 1
+          fi
+
+      - name: Configure Pages
+        if: always()
+        continue-on-error: true
+        uses: actions/configure-pages@v5
+
+      - name: Upload site for Pages
+        if: always()
+        continue-on-error: true
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: docs
+
+      - name: Deploy to Pages
+        if: always()
+        continue-on-error: true
+        id: deployment
+        uses: actions/deploy-pages@v4
