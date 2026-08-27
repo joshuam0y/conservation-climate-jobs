@@ -43,7 +43,7 @@ import re
 import time
 from datetime import datetime, timedelta, timezone
 
-from categorize import categorize, is_internship_like, is_senior_level, mentions_2027
+from categorize import categorize, is_internship_like, is_postdoc_or_phd, is_senior_level, mentions_2027
 
 SEARCH_TERMS = [
     "conservation",
@@ -147,6 +147,8 @@ def fetch():
                             # Conservation Law Foundation categorized as None and
                             # vanished until org was included here).
                             combined = f"{org or ''} {detail}"
+                            if is_postdoc_or_phd(title, combined):
+                                continue
                             category = categorize(title, combined)
                             if category is None:
                                 continue

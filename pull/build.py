@@ -14,8 +14,10 @@ import it, and add it to SOURCES below.
 from datetime import datetime, timezone
 
 import conservationjobboard
+import ecojobs
 import idealist
 import usajobs
+from categorize import is_postdoc_or_phd, is_senior_level
 from db import get_conn, init_db
 from render import write as render_write
 
@@ -25,7 +27,7 @@ from render import write as render_write
 # so this is deliberately more forgiving than "missing from today's run".
 STALE_AFTER_DAYS = 5
 
-SOURCES = [usajobs.fetch, idealist.fetch, conservationjobboard.fetch]
+SOURCES = [usajobs.fetch, idealist.fetch, conservationjobboard.fetch, ecojobs.fetch]
 
 
 def upsert(conn, listings):
@@ -50,6 +52,27 @@ def upsert(conn, listings):
             ),
         )
     conn.commit()
+
+
+def purge_now_excluded(conn):
+    """Re-checks every currently-active row against today's exclusion
+    rules (is_senior_level/is_postdoc_or_phd), not just newly-fetched
+    ones -- a filter added or tightened after a listing was already
+    stored would otherwise never apply to it until it happened to age out
+    5 days later on its own. Caught a real case of exactly this: a
+    "Postdoctoral Fellowship" listing, stored by an earlier run before
+    is_postdoc_or_phd existed, was still showing as active after the
+    exclusion shipped, since only NEW fetches were being filtered."""
+    rows = conn.execute("SELECT url, title, organization FROM listings WHERE active = 1").fetchall()
+    purged = 0
+    for row in rows:
+        combined = f"{row['organization'] or ''} {row['title']}"
+        if is_senior_level(row["title"]) or is_postdoc_or_phd(row["title"], combined):
+            conn.execute("UPDATE listings SET active = 0 WHERE url = ?", (row["url"],))
+            purged += 1
+    conn.commit()
+    if purged:
+        print(f"build: purged {purged} previously-stored listing(s) that fail current exclusion rules.")
 
 
 def age_out_stale(conn):
@@ -82,6 +105,7 @@ def run():
             print(f"build: source {fetch.__module__} failed entirely ({type(e).__name__}: {e}), skipping.")
 
     upsert(conn, all_listings)
+    purge_now_excluded(conn)
     age_out_stale(conn)
 
     active_count = conn.execute("SELECT COUNT(*) FROM listings WHERE active = 1").fetchone()[0]

@@ -101,6 +101,24 @@ SENIOR_LEVEL = re.compile(
     re.IGNORECASE,
 )
 
+# Excludes postdoctoral/PhD-only positions -- a Master's candidate doesn't
+# qualify for these and they'd otherwise slip past SENIOR_LEVEL (a postdoc
+# isn't a "senior" title, it's a specific-degree-requirement one, a
+# different axis of exclusion). "Doctoral candidate" is deliberately
+# excluded too (a listing seeking a *current* PhD student), but plain
+# "doctoral degree" appearing as one of several *acceptable* degrees in a
+# longer requirements paragraph is a real false-positive risk this can't
+# fully avoid from a title/short-summary check alone.
+POSTDOC_OR_PHD = re.compile(
+    r"\b(post-?doctoral|postdoc\w*|ph\.?d\.?\s*(required|preferred|candidate)|"
+    r"doctoral (degree required|candidate)|requires?\s+a\s+ph\.?d\.?)\b",
+    re.IGNORECASE,
+)
+
+
+def is_postdoc_or_phd(title, summary=""):
+    return bool(POSTDOC_OR_PHD.search(f"{title} {summary}"))
+
 
 def is_senior_level(title):
     return bool(SENIOR_LEVEL.search(title or ""))

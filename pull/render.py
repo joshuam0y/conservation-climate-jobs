@@ -40,6 +40,7 @@ SOURCE_LABELS = {
     "USAJOBS": "USAJOBS.gov",
     "Idealist": "Idealist.org",
     "ConservationJobBoard": "ConservationJobBoard.com",
+    "EcoJobs": "EcoJobs.com",
 }
 
 # Built from basic primitives (circle/line/polygon/ellipse), not hand-drawn

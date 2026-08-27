@@ -32,7 +32,7 @@ import time
 
 import requests
 
-from categorize import categorize, is_internship_like, is_senior_level, mentions_2027
+from categorize import categorize, is_internship_like, is_postdoc_or_phd, is_senior_level, mentions_2027
 
 SEARCH_URL = "https://data.usajobs.gov/api/search"
 
@@ -105,6 +105,8 @@ def fetch():
             # clearly relevant org ("Office of Environmental Justice") needs the
             # org name in the check too, not just the title/summary text.
             combined = f"{organization or ''} {summary}"
+            if is_postdoc_or_phd(title, combined):
+                continue
             category = categorize(title, combined)
             if category is None:
                 continue

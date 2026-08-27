@@ -25,7 +25,7 @@ from datetime import datetime, timedelta, timezone
 import requests
 from bs4 import BeautifulSoup
 
-from categorize import categorize, is_internship_like, is_senior_level, mentions_2027
+from categorize import categorize, is_internship_like, is_postdoc_or_phd, is_senior_level, mentions_2027
 
 SEARCH_URL = "https://www.conservationjobboard.com/intermediate-search"
 
@@ -131,6 +131,8 @@ def fetch():
             if is_senior_level(title):
                 continue
             combined = f"{company} {parsed['location']}"
+            if is_postdoc_or_phd(title, combined):
+                continue
             category = categorize(title, combined)
             if category is None:
                 continue
