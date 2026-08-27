@@ -307,9 +307,12 @@ def render():
         ]
     )
 
-    filter_pills = '<button type="button" class="filter-pill on" data-category="all">All</button>'
+    filter_pills = f'<button type="button" class="filter-pill on" data-category="all">All ({len(rows)})</button>'
     for cat, label in CATEGORY_LABELS.items():
-        filter_pills += f'<button type="button" class="filter-pill" data-category="{cat}">{html.escape(label)}</button>'
+        filter_pills += (
+            f'<button type="button" class="filter-pill" data-category="{cat}">'
+            f"{html.escape(label)} ({counts.get(cat, 0)})</button>"
+        )
 
     cards_html = "".join(_card_html(r) for r in rows)
     if not rows:
