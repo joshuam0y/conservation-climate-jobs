@@ -13,6 +13,7 @@ import it, and add it to SOURCES below.
 
 from datetime import datetime, timezone
 
+import conservationjobboard
 import idealist
 import usajobs
 from db import get_conn, init_db
@@ -24,7 +25,7 @@ from render import write as render_write
 # so this is deliberately more forgiving than "missing from today's run".
 STALE_AFTER_DAYS = 5
 
-SOURCES = [usajobs.fetch, idealist.fetch]
+SOURCES = [usajobs.fetch, idealist.fetch, conservationjobboard.fetch]
 
 
 def upsert(conn, listings):

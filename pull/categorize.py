@@ -25,7 +25,17 @@ CONSERVATION_BIOLOGY = re.compile(
     r"natural resource\w*|forestry|forester|botan(y|ist)|zoolog\w*|marine biolog\w*|"
     r"avian|herpetolog\w*|ornitholog\w*|entomolog\w*|national wildlife refuge|"
     r"national park service|fish and wildlife|biodiversity|game warden|park ranger\w*|"
-    r"restoration ecolog\w*|species recovery|wetland\w* (restoration|monitoring)"
+    r"restoration ecolog\w*|species recovery|wetland\w* (restoration|monitoring)|"
+    # Broader, org-organizing-style phrasing for the same subject matter --
+    # a real, common gap: general nonprofit job boards (Idealist) mostly
+    # post advocacy/organizing roles, not literal "wildlife biologist"
+    # titles, even at conservation-focused orgs. "Conservation" alone is
+    # too broad (would swallow finance/HR roles at any org with
+    # "Conservation" in its name), so this requires it alongside a
+    # conservation-specific object.
+    r"(ocean|land|marine|wildlife|habitat|watershed|coastal) conservation|"
+    r"conservation (organizer|associate|coordinator|corps)|land steward\w*|"
+    r"land trust|conservation district"
     r")\b",
     re.IGNORECASE,
 )
@@ -46,7 +56,12 @@ CLIMATE_POLICY = re.compile(
     r"climate mitigation|carbon polic\w*|emissions polic\w*|clean energy polic\w*|"
     r"climate resilien\w*|greenhouse gas polic\w*|climate action plan|energy polic\w*|"
     r"climate advocacy|climate governance|carbon market\w*|climate finance|"
-    r"climate risk (assessment|management)"
+    r"climate risk (assessment|management)|"
+    # Same broadening as CONSERVATION_BIOLOGY above -- these are how
+    # climate-policy-adjacent advocacy roles are actually titled on
+    # nonprofit job boards, not "policy analyst."
+    r"(global warming|climate) campaign\w*|clean energy campaign\w*|"
+    r"climate (organizer|advocate)"
     r")\b",
     re.IGNORECASE,
 )

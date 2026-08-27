@@ -9,392 +9,1396 @@
 <style>
   :root {
     color-scheme: light;
-    --bg: #FAF9F5; --surface: #ffffff; --surface-2: #F2F1EA;
-    --ink: #1C231F; --ink-dim: #55605A; --ink-muted: #8A9289;
-    --border: rgba(28,35,31,0.10); --shadow: 0 1px 2px rgba(28,35,31,.06), 0 8px 20px rgba(28,35,31,.06);
-    --accent: #1F6F4A; --accent-bg: rgba(31,111,74,0.10);
-    --cat-conservation_biology: #1baf7a; --cat-environmental_justice: #eb6834;
-    --cat-climate_policy: #2a78d6; --cat-other: #4a3aa7;
-    --header-grad: linear-gradient(135deg, #123B2A, #1F6F4A);
+    --bg: #F7F6F1; --surface: #ffffff; --surface-2: #EFEDE4;
+    --ink: #20241E; --ink-dim: #565C50; --ink-muted: #8B9084;
+    --border: rgba(32,36,30,0.11); --shadow: 0 1px 2px rgba(32,36,30,.05), 0 8px 20px rgba(32,36,30,.05);
+    --accent: #21603F; --accent-bg: rgba(33,96,63,0.10);
+    --cat-conservation_biology: #128a5c; --cat-environmental_justice: #c85526;
+    --cat-climate_policy: #1f63b3; --cat-other: #4a3aa7; --cat-all: #565C50;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
       color-scheme: dark;
-      --bg: #101511; --surface: #171D18; --surface-2: #1E2620;
-      --ink: #F2F4F1; --ink-dim: #B7C0BA; --ink-muted: #7C8880;
+      --bg: #14170F; --surface: #1B1F17; --surface-2: #23281E;
+      --ink: #EEF0E8; --ink-dim: #B7BEAC; --ink-muted: #7C8571;
       --border: rgba(255,255,255,0.09); --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 20px rgba(0,0,0,.35);
-      --accent: #3FAE7C; --accent-bg: rgba(63,174,124,0.16);
-      --cat-conservation_biology: #199e70; --cat-environmental_justice: #d95926;
-      --cat-climate_policy: #3987e5; --cat-other: #9085e9;
-      --header-grad: linear-gradient(135deg, #08150F, #113322);
+      --accent: #4FB287; --accent-bg: rgba(79,178,135,0.16);
+      --cat-conservation_biology: #199e70; --cat-environmental_justice: #d97a4a;
+      --cat-climate_policy: #5b9bdb; --cat-other: #9085e9; --cat-all: #B7BEAC;
     }
   }
   :root[data-theme="dark"] {
     color-scheme: dark;
-    --bg: #101511; --surface: #171D18; --surface-2: #1E2620;
-    --ink: #F2F4F1; --ink-dim: #B7C0BA; --ink-muted: #7C8880;
+    --bg: #14170F; --surface: #1B1F17; --surface-2: #23281E;
+    --ink: #EEF0E8; --ink-dim: #B7BEAC; --ink-muted: #7C8571;
     --border: rgba(255,255,255,0.09); --shadow: 0 1px 2px rgba(0,0,0,.3), 0 8px 20px rgba(0,0,0,.35);
-    --accent: #3FAE7C; --accent-bg: rgba(63,174,124,0.16);
-    --cat-conservation_biology: #199e70; --cat-environmental_justice: #d95926;
-    --cat-climate_policy: #3987e5; --cat-other: #9085e9;
-    --header-grad: linear-gradient(135deg, #08150F, #113322);
+    --accent: #4FB287; --accent-bg: rgba(79,178,135,0.16);
+    --cat-conservation_biology: #199e70; --cat-environmental_justice: #d97a4a;
+    --cat-climate_policy: #5b9bdb; --cat-other: #9085e9; --cat-all: #B7BEAC;
   }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; }
   body { background: var(--bg); color: var(--ink); font-family: -apple-system, "Segoe UI", system-ui, sans-serif; }
-  .page { max-width: 1080px; margin: 0 auto; padding: 0 20px 60px; }
+  h1, h2, .brand { font-family: Georgia, "Iowan Old Style", "Times New Roman", serif; }
 
-  .header-band { background: var(--header-grad); color: #fff; padding: 28px 24px; border-radius: 0 0 20px 20px; margin-bottom: 20px; }
-  .header-inner { max-width: 1080px; margin: 0 auto; display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; flex-wrap: wrap; }
-  .header-band h1 { margin: 0 0 6px; font-size: 24px; letter-spacing: -0.01em; }
-  .header-band p { margin: 0; color: rgba(255,255,255,0.82); font-size: 14px; max-width: 60ch; line-height: 1.5; }
-  .meta-line { margin-top: 8px; font-size: 12.5px; color: rgba(255,255,255,0.7); }
+  header.site {
+    display: flex; justify-content: space-between; align-items: flex-end; gap: 16px; flex-wrap: wrap;
+    max-width: 1180px; margin: 0 auto; padding: 28px 24px 18px; border-bottom: 1px solid var(--border);
+  }
+  .brand { font-size: 26px; font-weight: 700; letter-spacing: -0.01em; margin: 0; }
+  .tagline { margin: 6px 0 0; color: var(--ink-dim); font-size: 13.5px; max-width: 62ch; line-height: 1.55; }
+  .header-meta { font-size: 12px; color: var(--ink-muted); margin-top: 6px; }
   .theme-toggle {
-    background: rgba(255,255,255,0.15); color: #fff; border: 1px solid rgba(255,255,255,0.3);
-    border-radius: 999px; padding: 7px 14px; font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: inherit;
+    background: var(--surface-2); color: var(--ink); border: 1px solid var(--border);
+    border-radius: 7px; padding: 7px 13px; font-size: 12.5px; font-weight: 600; cursor: pointer; font-family: inherit;
   }
-  .theme-toggle:hover { background: rgba(255,255,255,0.25); }
+  .theme-toggle:hover { background: var(--surface); }
 
-  .stats-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 18px; }
-  .stat-tile { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 14px; box-shadow: var(--shadow); border-top: 3px solid var(--accent); }
-  .stat-value { font-size: 21px; font-weight: 700; }
-  .stat-label { font-size: 11.5px; color: var(--ink-muted); margin-top: 2px; }
+  .layout { max-width: 1180px; margin: 0 auto; padding: 22px 24px 60px; display: flex; gap: 28px; align-items: flex-start; }
 
-  .toolbar {
-    position: sticky; top: 0; z-index: 5; background: var(--bg); padding: 10px 0 12px;
-    display: flex; flex-wrap: wrap; gap: 8px; align-items: center; border-bottom: 1px solid var(--border); margin-bottom: 16px;
+  .sidebar { width: 250px; flex: none; position: sticky; top: 20px; }
+  .sidebar h2 { font-size: 13px; font-weight: 700; letter-spacing: 0.02em; margin: 0 0 8px; color: var(--ink-dim); }
+  .nav-list { list-style: none; margin: 0 0 20px; padding: 0; }
+  .nav-item {
+    display: flex; align-items: center; gap: 9px; width: 100%; background: none; border: none;
+    border-left: 3px solid transparent; text-align: left; padding: 8px 10px; font-size: 13.5px;
+    font-weight: 600; color: var(--ink-dim); cursor: pointer; font-family: inherit; border-radius: 0 6px 6px 0;
   }
-  .filter-pill {
-    background: var(--surface); border: 1px solid var(--border); color: var(--ink-dim);
-    border-radius: 999px; padding: 7px 14px; font-size: 13px; font-weight: 600; cursor: pointer; font-family: inherit;
-  }
-  .filter-pill.on { background: var(--accent); border-color: var(--accent); color: #fff; }
-  .search-box {
-    flex: 1; min-width: 160px; padding: 8px 12px; border-radius: 999px; border: 1px solid var(--border);
-    background: var(--surface); color: var(--ink); font-size: 13px; font-family: inherit;
-  }
-  .toggle-2027, .toggle-intern { display: flex; align-items: center; gap: 6px; font-size: 12.5px; color: var(--ink-dim); }
-  #resultCount { font-size: 12.5px; color: var(--ink-muted); width: 100%; margin-top: 2px; }
+  .nav-item:hover { background: var(--surface-2); }
+  .nav-item.on { border-left-color: var(--nav-color, var(--accent)); background: var(--surface-2); color: var(--ink); }
+  .nav-item svg { width: 15px; height: 15px; flex: none; color: var(--nav-color, var(--ink-muted)); }
+  .nav-item .count { margin-left: auto; font-size: 11.5px; color: var(--ink-muted); font-weight: 700; }
 
-  .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
-  .card {
-    display: block; background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--cat-other);
-    border-radius: 10px 14px 14px 10px; padding: 14px 16px; box-shadow: var(--shadow); text-decoration: none;
-    color: inherit; transition: transform .08s, box-shadow .08s;
+  .side-search {
+    width: 100%; padding: 8px 10px; border: none; border-bottom: 2px solid var(--border);
+    background: transparent; color: var(--ink); font-size: 13.5px; font-family: inherit; margin-bottom: 14px;
   }
-  .card[data-category="conservation_biology"] { border-left-color: var(--cat-conservation_biology); }
-  .card[data-category="environmental_justice"] { border-left-color: var(--cat-environmental_justice); }
-  .card[data-category="climate_policy"] { border-left-color: var(--cat-climate_policy); }
-  .card[data-category="other"] { border-left-color: var(--cat-other); }
-  .card:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,.08), 0 14px 26px rgba(0,0,0,.10); }
-  .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
-  .badge { font-size: 10.5px; font-weight: 700; letter-spacing: .02em; border-radius: 999px; padding: 3px 9px; color: #fff; white-space: nowrap; }
-  .badge-cat { display: inline-flex; align-items: center; gap: 4px; }
-  .badge-cat svg { width: 11px; height: 11px; fill: #fff; flex: none; }
-  .badge-2027 { background: var(--accent-bg); color: var(--accent); }
-  .badge-intern { background: var(--surface-2); color: var(--ink-dim); border: 1px solid var(--border); }
-  .card-title { font-size: 15.5px; font-weight: 700; margin: 0 0 4px; line-height: 1.3; color: var(--ink); }
-  .card-meta { font-size: 12.5px; color: var(--ink-dim); margin-bottom: 6px; }
-  .card-summary { font-size: 12.5px; color: var(--ink-dim); line-height: 1.5; margin: 0 0 8px; }
-  .card-footer { font-size: 11.5px; color: var(--ink-muted); border-top: 1px dashed var(--border); padding-top: 8px; }
-  .src-badge { background: var(--surface-2); border-radius: 6px; padding: 1px 6px; font-weight: 600; }
+  .side-search:focus { outline: none; border-bottom-color: var(--accent); }
+  .side-toggle { display: flex; align-items: center; gap: 7px; font-size: 12.5px; color: var(--ink-dim); margin-bottom: 8px; }
+  .sidebar-footer { font-size: 11.5px; color: var(--ink-muted); margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--border); line-height: 1.6; }
+
+  .main { flex: 1; min-width: 0; }
+  #resultCount { font-size: 12.5px; color: var(--ink-muted); margin-bottom: 10px; }
+
+  .job-list { display: flex; flex-direction: column; }
+  .job-row {
+    display: flex; align-items: flex-start; gap: 12px; padding: 13px 4px; border-bottom: 1px solid var(--border);
+    text-decoration: none; color: inherit;
+  }
+  .job-row:hover { background: var(--surface-2); }
+  .job-row-icon {
+    flex: none; width: 30px; height: 30px; border-radius: 8px; background: var(--surface-2);
+    display: flex; align-items: center; justify-content: center; margin-top: 1px;
+  }
+  .job-row-icon svg { width: 16px; height: 16px; }
+  .job-row-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .job-row-title { font-size: 14.5px; font-weight: 700; color: var(--ink); }
+  .job-row-meta { font-size: 12.5px; color: var(--ink-dim); }
+  .job-row-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
+  .tag { font-size: 10.5px; font-weight: 700; border-radius: 5px; padding: 2px 7px; }
+  .tag-intern { background: var(--surface-2); color: var(--ink-dim); border: 1px solid var(--border); }
+  .tag-2027 { background: var(--accent-bg); color: var(--accent); }
+  .job-row-date { flex: none; font-size: 11.5px; color: var(--ink-muted); text-align: right; white-space: nowrap; padding-top: 2px; }
 
   .empty-state { text-align: center; padding: 60px 20px; color: var(--ink-muted); }
-  footer.site-footer { margin-top: 30px; padding-top: 16px; border-top: 1px solid var(--border); font-size: 12px; color: var(--ink-muted); line-height: 1.6; }
+  footer.site-footer {
+    max-width: 1180px; margin: 10px auto 0; padding: 16px 24px 30px; font-size: 12px; color: var(--ink-muted); line-height: 1.6;
+  }
   footer.site-footer a { color: var(--accent); }
 
-  @media (max-width: 560px) {
-    .header-inner { flex-direction: column; }
-    .grid { grid-template-columns: 1fr; }
+  @media (max-width: 760px) {
+    .layout { flex-direction: column; }
+    .sidebar { width: 100%; position: static; }
+    .nav-list { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
+    .nav-item { width: auto; border-left: none; border-bottom: 3px solid transparent; border-radius: 6px 6px 0 0; }
+    .nav-item.on { border-bottom-color: var(--nav-color, var(--accent)); }
+    .job-row-date { display: none; }
   }
 </style>
 
 </head>
 <body>
-  <div class="header-band">
-    <div class="header-inner">
-      <div>
-        <h1>Conservation &amp; Climate Jobs Tracker</h1>
-        <p>Internships, fellowships, and entry-level roles in conservation biology, environmental justice,
-           and climate policy &mdash; pulled automatically from multiple job sites and refreshed on a schedule,
-           with a highlight for anything that mentions Summer 2027.</p>
-        <div class="meta-line">Sources checked: Idealist.org &middot; Last updated August 27, 2026 at 5:25 PM UTC</div>
+  <header class="site">
+    <div>
+      <h1 class="brand">Conservation &amp; Climate Jobs</h1>
+      <p class="tagline">Internships, fellowships, and entry-level roles in conservation biology, environmental
+         justice, and climate policy, pulled automatically from multiple job sites and refreshed on a schedule.</p>
+      <div class="header-meta">Sources checked: ConservationJobBoard.com, Idealist.org &middot; Last updated August 27, 2026 at 5:43 PM UTC</div>
+    </div>
+    <button type="button" class="theme-toggle" id="themeToggle">Switch to dark</button>
+  </header>
+  <div class="layout">
+    <aside class="sidebar">
+      <h2>Category</h2>
+      <ul class="nav-list"><li><button type="button" class="nav-item on" data-category="all" style="--nav-color:var(--cat-all)"><svg viewBox="0 0 24 24"><rect x="4" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="13" y="4" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="4" y="13" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/><rect x="13" y="13" width="7" height="7" rx="1.5" fill="none" stroke="currentColor" stroke-width="2"/></svg>All<span class="count">104</span></button></li><li><button type="button" class="nav-item" data-category="conservation_biology" style="--nav-color:var(--cat-conservation_biology)"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>Conservation Biology<span class="count">56</span></button></li><li><button type="button" class="nav-item" data-category="environmental_justice" style="--nav-color:var(--cat-environmental_justice)"><svg viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="5" y1="6" x2="19" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><line x1="8" y1="19" x2="16" y2="19" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><circle cx="5" cy="10" r="3" fill="none" stroke="currentColor" stroke-width="2"/><circle cx="19" cy="10" r="3" fill="none" stroke="currentColor" stroke-width="2"/></svg>Environmental Justice<span class="count">0</span></button></li><li><button type="button" class="nav-item" data-category="climate_policy" style="--nav-color:var(--cat-climate_policy)"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><ellipse cx="12" cy="12" rx="4" ry="9" fill="none" stroke="currentColor" stroke-width="2"/><line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2"/></svg>Climate Policy<span class="count">3</span></button></li><li><button type="button" class="nav-item" data-category="other" style="--nav-color:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental<span class="count">45</span></button></li></ul>
+      <input type="text" id="searchBox" class="side-search" placeholder="Search title, org, location...">
+      <label class="side-toggle"><input type="checkbox" id="only2027"> Summer 2027 mentioned</label>
+      <label class="side-toggle"><input type="checkbox" id="onlyIntern"> Internship / entry-level tagged</label>
+      <div class="sidebar-footer">
+        Every row links straight to the original posting &mdash; nothing is hosted here beyond a short summary.
+        Categorization is automatic and can occasionally miscategorize or miss a listing; check the source
+        site directly when in doubt.
       </div>
-      <button type="button" class="theme-toggle" id="themeToggle">Switch to dark</button>
-    </div>
-  </div>
-  <div class="page">
-    <div class="stats-row"><div class="stat-tile"><div class="stat-value">18</div><div class="stat-label">Total listings</div></div><div class="stat-tile"><div class="stat-value">0</div><div class="stat-label">Conservation Biology</div></div><div class="stat-tile"><div class="stat-value">0</div><div class="stat-label">Environmental Justice</div></div><div class="stat-tile"><div class="stat-value">0</div><div class="stat-label">Climate Policy</div></div><div class="stat-tile"><div class="stat-value">1</div><div class="stat-label">Internship / entry-level tagged</div></div><div class="stat-tile"><div class="stat-value">0</div><div class="stat-label">Mention Summer 2027</div></div></div>
-    <div class="toolbar">
-      <button type="button" class="filter-pill on" data-category="all">All (18)</button><button type="button" class="filter-pill" data-category="conservation_biology">Conservation Biology (0)</button><button type="button" class="filter-pill" data-category="environmental_justice">Environmental Justice (0)</button><button type="button" class="filter-pill" data-category="climate_policy">Climate Policy (0)</button><button type="button" class="filter-pill" data-category="other">Other Environmental (18)</button>
-      <input type="text" id="searchBox" class="search-box" placeholder="Search title, organization, location...">
-      <label class="toggle-2027"><input type="checkbox" id="only2027"> Only show Summer 2027 mentions</label>
-      <label class="toggle-intern"><input type="checkbox" id="onlyIntern"> Only show internship/entry-level tagged</label>
+    </aside>
+    <main class="main">
       <div id="resultCount"></div>
-    </div>
-    <div class="grid">
-    <a class="card" href="https://www.idealist.org/en/nonprofit-job/ff69e2d54fd4421aba02407ab5194203-ocean-associate-environment-america-boston" target="_blank" rel="noopener"
+      <div class="job-list">
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-district-forester-sonora-forestry-district-sonora-california/9287443486" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="district forester (sonora forestry district) sierra pacific industries sonora, ca"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">District Forester (Sonora Forestry District)</span>
+        <span class="job-row-meta">Sierra Pacific Industries &middot; Sonora, CA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 27, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-land-stewardship--restoration-ecologist-belleville-wisconsin/5170076249" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="land stewardship &amp; restoration ecologist badgerland fondation belleville, wi"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Land Stewardship &amp; Restoration Ecologist</span>
+        <span class="job-row-meta">BadgerLand Fondation &middot; Belleville, WI &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 27, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-land-steward-kennett-square-pennsylvania/1289508465" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="land steward longwood gardens kennett square, pa"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Land Steward</span>
+        <span class="job-row-meta">Longwood Gardens &middot; Kennett Square, PA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 27, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-fuels-program-manager-weaverville-california/4985989523" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="fuels program manager trinity county resource conservation district weaverville, ca"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Fuels Program Manager</span>
+        <span class="job-row-meta">Trinity County Resource Conservation District &middot; Weaverville, CA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 27, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-private-land-program-manager-wildlife-santa-fe-new-mexico/7376814932" target="_blank" rel="noopener"
+       data-category="other" data-search="private land program manager (wildlife) new mexico department of wildlife santa fe, nm"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Private Land Program Manager (Wildlife)</span>
+        <span class="job-row-meta">New Mexico Department of Wildlife &middot; Santa Fe, NM &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 27, 2026 &middot; Closes Sep 9, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-hr-member-coordinator-remote-remote/7606641301" target="_blank" rel="noopener"
+       data-category="other" data-search="hr member coordinator american conservation experience (ace) remote, remote"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">HR Member Coordinator</span>
+        <span class="job-row-meta">American Conservation Experience (ACE) &middot; Remote, Remote &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 27, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-workers-compensation-specialist-remote-remote/4671046176" target="_blank" rel="noopener"
+       data-category="other" data-search="worker&#x27;s compensation specialist american conservation experience (ace) remote, remote"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Worker&#x27;s Compensation Specialist</span>
+        <span class="job-row-meta">American Conservation Experience (ACE) &middot; Remote, Remote &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 27, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-interpretive-media-steward---americorps-republic-missouri/7878593572" target="_blank" rel="noopener"
+       data-category="other" data-search="interpretive media steward - americorps conservation legacy program: stewards individual placements program republic, mo"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Interpretive Media Steward - AmeriCorps</span>
+        <span class="job-row-meta">Conservation Legacy Program: Stewards Individual Placements Program &middot; Republic, MO &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 27, 2026 &middot; Closes Sep 11, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-biological-and-invasive-species-technician-usfw--pahranagat-national-wildlife-refuge-pahranagat-nevada/4295533629" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="biological and invasive species technician (usfw,  pahranagat national wildlife refuge) great basin institute pahranagat, nv"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Biological and Invasive Species Technician (USFW,  Pahranagat National Wildlife Refuge)</span>
+        <span class="job-row-meta">Great Basin Institute &middot; Pahranagat, NV &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 27, 2026 &middot; Closes Sep 16, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-marine-fisheries-biologist--northeast-groundfish-observer-new-bedford-massachusetts/8546656426" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="marine fisheries biologist- northeast groundfish observer fathom resources new bedford, ma"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Marine Fisheries Biologist- Northeast Groundfish Observer</span>
+        <span class="job-row-meta">Fathom Resources &middot; New Bedford, MA &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 27, 2026 &middot; Closes Sep 6, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-supervisory-fishery-biologist--idaho-marking-tagging-program-lewiston-idaho/7745547649" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="supervisory fishery biologist- idaho marking/ tagging program pacific states marine fisheries commission lewiston, id"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Supervisory Fishery Biologist- Idaho Marking/ Tagging Program</span>
+        <span class="job-row-meta">Pacific States Marine Fisheries Commission &middot; Lewiston, ID &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 27, 2026 &middot; Closes Sep 2, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-fisheries-laboratory-technician-lipid-chemistry-garland-texas/5169353542" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="fisheries laboratory technician (lipid chemistry) azura consulting llc garland, tx"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Fisheries Laboratory Technician (Lipid Chemistry)</span>
+        <span class="job-row-meta">Azura Consulting LLC &middot; GARLAND, TX &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 27, 2026 &middot; Closes Sep 11, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-natural-resources-field-technician-lead-idaho-falls-idaho/5645004907" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="natural resources field technician lead north wind resource consulting idaho falls, id"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Natural Resources Field Technician Lead</span>
+        <span class="job-row-meta">North Wind Resource Consulting &middot; Idaho Falls, ID &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 27, 2026 &middot; Closes Sep 30, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-forestry-technician-4-geyserville-california/1948253829" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="forestry technician 4 northern sonoma county fire protection district geyserville, ca"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Forestry Technician 4</span>
+        <span class="job-row-meta">Northern Sonoma County Fire Protection District &middot; Geyserville, CA &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 27, 2026 &middot; Closes Sep 30, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-fisheries-wildlife-biologist-i-colby-kansas/8310063581" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="fisheries wildlife biologist i kansas department of wildlife and parks colby, ks"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Fisheries Wildlife Biologist I</span>
+        <span class="job-row-meta">Kansas Department of Wildlife and Parks &middot; Colby, KS &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 26, 2026 &middot; Closes Sep 11, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-nearshore-biologist---fish-and-wildlife-biologist-4---permanent---2026-07067-olympia-washington/3894779884" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="nearshore biologist - fish and wildlife biologist 4 - permanent - 2026-07067 washington department of fish and wildlife olympia, wa"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Nearshore Biologist - Fish and Wildlife Biologist 4 - Permanent - 2026-07067</span>
+        <span class="job-row-meta">Washington Department of Fish and Wildlife &middot; Olympia, WA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 26, 2026 &middot; Closes Sep 9, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-district-manager-dayton-washington/6362476693" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="district manager columbia conservation district dayton, wa"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">District Manager</span>
+        <span class="job-row-meta">Columbia Conservation District &middot; Dayton, WA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 26, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-rio-grande-joint-venture-rgjv-conservation-delivery-specialist-alpine-texas/8097340499" target="_blank" rel="noopener"
+       data-category="other" data-search="rio grande joint venture (rgjv) conservation delivery specialist american bird conservancy alpine, tx"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Rio Grande Joint Venture (RGJV) Conservation Delivery Specialist</span>
+        <span class="job-row-meta">American Bird Conservancy &middot; Alpine, TX &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 26, 2026 &middot; Closes Sep 11, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-environmental-education-internship-glen-rose-texas/8456876552" target="_blank" rel="noopener"
+       data-category="other" data-search="environmental education internship fossil rim wildlife center glen rose, tx"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Environmental Education Internship</span>
+        <span class="job-row-meta">Fossil Rim Wildlife Center &middot; Glen Rose, TX &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 26, 2026 &middot; Closes Oct 1, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-assistant-professor-of-animal-ecology-fairbanks-alaska/1070638566" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="assistant professor of animal ecology university of alaska fairbanks fairbanks, ak"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Assistant Professor of Animal Ecology</span>
+        <span class="job-row-meta">University of Alaska Fairbanks &middot; Fairbanks, AK &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 26, 2026 &middot; Closes Oct 1, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-senior-forest-ecologist-washington-dc/9980470287" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="senior forest ecologist the wilderness society washington, dc"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Senior Forest Ecologist</span>
+        <span class="job-row-meta">The Wilderness Society &middot; Washington, DC &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 26, 2026 &middot; Closes Sep 20, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-graduate-fellow-in-environmental-education-and-science-communication-mccall-idaho/4752840992" target="_blank" rel="noopener"
+       data-category="other" data-search="graduate fellow in environmental education and science communication university of idaho mccall, id"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Graduate Fellow in Environmental Education and Science Communication</span>
+        <span class="job-row-meta">University of Idaho &middot; McCall, ID &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 26, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-ctai-conservationist-jackson-michigan/2571862085" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="ctai conservationist jackson county conservation district jackson, mi"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">CTAI Conservationist</span>
+        <span class="job-row-meta">Jackson County Conservation District &middot; Jackson, MI &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 26, 2026 &middot; Closes Sep 15, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-conservation-specialist-center-harbor-new-hampshire/6474241346" target="_blank" rel="noopener"
+       data-category="other" data-search="conservation specialist lakes region conservation trust center harbor, nh"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Conservation Specialist</span>
+        <span class="job-row-meta">Lakes Region Conservation Trust &middot; Center Harbor, NH &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 26, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-senior-director-of-conservation-center-harbor-new-hampshire/6832302938" target="_blank" rel="noopener"
+       data-category="other" data-search="senior director of conservation lakes region conservation trust center harbor, nh"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Senior Director of Conservation</span>
+        <span class="job-row-meta">Lakes Region Conservation Trust &middot; Center Harbor, NH &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 26, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-2027-ucla-la-kretz-center-postdoctoral-fellowship-in-california-conservation-science-los-angeles-california/1492441794" target="_blank" rel="noopener"
+       data-category="other" data-search="2027 ucla la kretz center postdoctoral fellowship in california conservation science ucla institute of environmental science los angeles, ca"
+       data-2027="1" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">2027 UCLA La Kretz Center Postdoctoral Fellowship in California Conservation Science</span>
+        <span class="job-row-meta">UCLA Institute of Environmental Science &middot; Los Angeles, CA &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span><span class="tag tag-2027">Summer 2027 mentioned</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 26, 2026 &middot; Closes Sep 28, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-fisheries-biologist-1-fairview-pennsylvania/7151834521" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="fisheries biologist 1 pennsylvania fish and boat commission fairview, pa"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Fisheries Biologist 1</span>
+        <span class="job-row-meta">Pennsylvania Fish and Boat Commission &middot; Fairview, PA &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 25, 2026 &middot; Closes Sep 2, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-assistant-regional-habitat-program-manager---region-3---wms-band-1---permanent---2026-06506-ellensburg-washington/5616507187" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="assistant regional habitat program manager - region 3 - wms band 1 - permanent - 2026-06506 washington department of fish and wildlife ellensburg, wa"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Assistant Regional Habitat Program Manager - Region 3 - WMS Band 1 - Permanent - 2026-06506</span>
+        <span class="job-row-meta">Washington Department of Fish and Wildlife &middot; Ellensburg, WA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 25, 2026 &middot; Closes Sep 7, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-wildlife-management-specialist-russell--riverton-iowa/4150051360" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="wildlife management specialist pheasants forever, inc., and quail forever russell &amp; riverton, ia"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Wildlife Management Specialist</span>
+        <span class="job-row-meta">Pheasants Forever, Inc., and Quail Forever &middot; Russell &amp; Riverton, IA &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 25, 2026 &middot; Closes Sep 6, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-executive-assistant-st-paul-minnesota/6412605295" target="_blank" rel="noopener"
+       data-category="other" data-search="executive assistant minnesota center for environmental advocacy st. paul, mn"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Executive Assistant</span>
+        <span class="job-row-meta">Minnesota Center for Environmental Advocacy &middot; St. Paul, MN &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 25, 2026 &middot; Closes Sep 13, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-project-coordinator-manton-michigan/2370481869" target="_blank" rel="noopener"
+       data-category="other" data-search="project coordinator wildlife and wetlands solutions manton, mi"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Project Coordinator</span>
+        <span class="job-row-meta">Wildlife and Wetlands Solutions &middot; Manton, MI &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 25, 2026 &middot; Closes Sep 15, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-restoration-invasive-species-and-forestry-technician-corinth-vermont/1713322448" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="restoration, invasive species, and forestry technician redstart corinth, vt"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Restoration, Invasive Species, and Forestry Technician</span>
+        <span class="job-row-meta">Redstart &middot; Corinth, VT &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 25, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-assistant-environmental-analyst--hudson-river-stewardship-assistant-staatsburg-new-york/7201073086" target="_blank" rel="noopener"
+       data-category="other" data-search="assistant environmental analyst – hudson river stewardship assistant neiwpcc staatsburg, ny"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Assistant Environmental Analyst – Hudson River Stewardship Assistant</span>
+        <span class="job-row-meta">NEIWPCC &middot; Staatsburg, NY &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 25, 2026 &middot; Closes Sep 20, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-landscape-conservation-gis-scientist-miami-florida/6243363937" target="_blank" rel="noopener"
+       data-category="other" data-search="landscape conservation gis scientist bonefish &amp; tarpon trust miami, fl"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Landscape Conservation GIS Scientist</span>
+        <span class="job-row-meta">Bonefish &amp; Tarpon Trust &middot; Miami, FL &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 25, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-rcpp-coordinating-wildlife-biologist-bossier-city-louisiana/6411200965" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="rcpp coordinating wildlife biologist pheasants forever, inc., and quail forever bossier city, la"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">RCPP Coordinating Wildlife Biologist</span>
+        <span class="job-row-meta">Pheasants Forever, Inc., and Quail Forever &middot; Bossier City, LA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 24, 2026 &middot; Closes Sep 11, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-brand--content-manager-remote-other/2583668318" target="_blank" rel="noopener"
+       data-category="other" data-search="brand &amp; content manager bat conservation international inc. remote, other"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Brand &amp; Content Manager</span>
+        <span class="job-row-meta">Bat Conservation International Inc. &middot; Remote, Other &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 24, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-conservation-associate-richmond-virginia/9113449820" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="conservation associate environment america richmond, va"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Conservation Associate</span>
+        <span class="job-row-meta">Environment America &middot; Richmond, VA &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 24, 2026 &middot; Closes Sep 18, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-ocean-associate-boston-massachusetts/7478115104" target="_blank" rel="noopener"
+       data-category="other" data-search="ocean associate environment america boston, ma"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Ocean Associate</span>
+        <span class="job-row-meta">Environment America &middot; Boston, MA &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 24, 2026 &middot; Closes Sep 18, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-job/ff69e2d54fd4421aba02407ab5194203-ocean-associate-environment-america-boston" target="_blank" rel="noopener"
        data-category="other" data-search="ocean associate environment america hybrid · boston, ma · full time · usd $40,000 / year"
        data-2027="0" data-intern="0">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Ocean Associate</span>
+        <span class="job-row-meta">Environment America &middot; Hybrid · Boston, MA · Full Time · USD $40,000 / year &middot; Idealist.org</span>
         
-        
-      </div>
-      <h3 class="card-title">Ocean Associate</h3>
-      <div class="card-meta">Environment America &middot; Hybrid · Boston, MA · Full Time · USD $40,000 / year</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 22, 2026</div>
+      </span>
+      <span class="job-row-date">Posted Aug 22, 2026</span>
     </a>
     
-    <a class="card" href="https://www.idealist.org/en/nonprofit-job/25ba4183f2404bd68966fed28566fdce-administrative-coordinator-washington-conservation-action-seattle" target="_blank" rel="noopener"
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-philanthropy-officer-petaluma-california/3702364091" target="_blank" rel="noopener"
+       data-category="other" data-search="philanthropy officer point blue conservation science petaluma, ca"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Philanthropy Officer</span>
+        <span class="job-row-meta">Point Blue Conservation Science &middot; Petaluma, CA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 21, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-restoration-field-operations-manager-monterey-california/9317000424" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="restoration field operations manager big sur land trust monterey, ca"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Restoration Field Operations Manager</span>
+        <span class="job-row-meta">Big Sur Land Trust &middot; Monterey, CA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 21, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-ecological-technician-west-saint-paul-minnesota/1388394287" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="ecological technician native resource preservation llc west saint paul or marshall/clarkfield, mn"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Ecological Technician</span>
+        <span class="job-row-meta">Native Resource Preservation LLC &middot; West Saint Paul or Marshall/Clarkfield, MN &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 21, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-quantitative-animal-ecologist-honolulu-hawaii/1844134062" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="quantitative animal ecologist pacific islands fisheries science center, national marine fisheries service honolulu, hi"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Quantitative Animal Ecologist</span>
+        <span class="job-row-meta">Pacific Islands Fisheries Science Center, National Marine Fisheries Service &middot; Honolulu, HI &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 21, 2026 &middot; Closes Aug 27, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-director-for-environmental-justic-equity--civil-rights-olympia-washington/3987199242" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="director for environmental justic, equity &amp; civil rights washington state department of natural resources olympia, wa"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Director for Environmental Justic, Equity &amp; Civil Rights</span>
+        <span class="job-row-meta">Washington State Department of Natural Resources &middot; Olympia, WA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 21, 2026 &middot; Closes Sep 2, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-environmental-planning--collaborative-projects-director-mammoth-lakes-california/1060172801" target="_blank" rel="noopener"
+       data-category="other" data-search="environmental planning &amp; collaborative projects director whitebark institute mammoth lakes, ca"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Environmental Planning &amp; Collaborative Projects Director</span>
+        <span class="job-row-meta">Whitebark Institute &middot; Mammoth Lakes, CA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 21, 2026 &middot; Closes Sep 15, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-adult-salmonid-trapping-and-evaluation-biologist---fish--wildlife-biologist-3---permanent---2026-06957-dayton-washington/5307490012" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="adult salmonid trapping and evaluation biologist - fish &amp; wildlife biologist 3 - permanent - 2026-06957 washington department of fish and wildlife dayton, wa"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Adult Salmonid Trapping and Evaluation Biologist - Fish &amp; Wildlife Biologist 3 - Permanent - 2026-06957</span>
+        <span class="job-row-meta">Washington Department of Fish and Wildlife &middot; Dayton, WA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 20, 2026 &middot; Closes Sep 2, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-restoration-ecologist-orange-county-california/8597390656" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="restoration ecologist endemic environmental services orange county, ca"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Restoration Ecologist</span>
+        <span class="job-row-meta">Endemic Environmental Services &middot; Orange County, CA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 20, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-administrative-coordinator-seattle-washington/1121012071" target="_blank" rel="noopener"
+       data-category="other" data-search="administrative coordinator washington conservation action seattle, wa"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Administrative Coordinator</span>
+        <span class="job-row-meta">Washington Conservation Action &middot; Seattle, WA &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 20, 2026 &middot; Closes Sep 15, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-deputy-regional-director--water-resources--southeast-region---260005eu-lakeville-massachusetts/6120889137" target="_blank" rel="noopener"
+       data-category="other" data-search="deputy regional director- water resources- southeast region - (260005eu) massachusetts department of environmental protection lakeville, ma"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Deputy Regional Director- Water Resources- Southeast Region - (260005EU)</span>
+        <span class="job-row-meta">Massachusetts Department of Environmental Protection &middot; Lakeville, MA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 20, 2026 &middot; Closes Sep 11, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-ecological-restoration-technician-greenview-il-illinois/3451016835" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="ecological restoration technician nelson land management llc greenview, il"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Ecological Restoration Technician</span>
+        <span class="job-row-meta">Nelson Land Management LLC &middot; Greenview, IL &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 20, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-job/25ba4183f2404bd68966fed28566fdce-administrative-coordinator-washington-conservation-action-seattle" target="_blank" rel="noopener"
        data-category="other" data-search="administrative coordinator washington conservation action hybrid · washington, us · full time · usd $60,000 - $65,000 / year"
        data-2027="0" data-intern="0">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Administrative Coordinator</span>
+        <span class="job-row-meta">Washington Conservation Action &middot; Hybrid · Washington, US · Full Time · USD $60,000 - $65,000 / year &middot; Idealist.org</span>
         
-        
-      </div>
-      <h3 class="card-title">Administrative Coordinator</h3>
-      <div class="card-meta">Washington Conservation Action &middot; Hybrid · Washington, US · Full Time · USD $60,000 - $65,000 / year</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 20, 2026</div>
+      </span>
+      <span class="job-row-date">Posted Aug 20, 2026</span>
     </a>
     
-    <a class="card" href="https://www.idealist.org/en/nonprofit-job/5034c9bc250b4ed5bb17707165d780b8-breaking-barriers-collaborative-communications-manager-climate-solutions-seattle" target="_blank" rel="noopener"
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-regional-wildlife-biologist---landowner-sportsmen-coordinator-salmon-idaho/5611488189" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="regional wildlife biologist - landowner sportsmen coordinator idaho department of fish and game salmon, id"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Regional Wildlife Biologist - Landowner Sportsmen Coordinator</span>
+        <span class="job-row-meta">Idaho Department of Fish and Game &middot; Salmon, ID &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 19, 2026 &middot; Closes Sep 8, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-equipment-coordinatorcrew-member--civicgreen-stormwater-infrastructure-team-austin-texas/3651788597" target="_blank" rel="noopener"
+       data-category="other" data-search="crew member – private installation/trail crew environmental survey inc austin, tx"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Crew Member – Private Installation/Trail Crew</span>
+        <span class="job-row-meta">Environmental Survey Inc &middot; Austin, TX &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 19, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-conservation-impact-specialist-remote-remote/9584345611" target="_blank" rel="noopener"
+       data-category="other" data-search="conservation impact specialist american bird conservancy remote, remote"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Conservation Impact Specialist</span>
+        <span class="job-row-meta">American Bird Conservancy &middot; Remote, Remote &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 19, 2026 &middot; Closes Sep 4, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-hatchery-data-steward---fish--wildlife-biologist-3---permanent---2026-06870-olympia-washington/7193212725" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="hatchery data steward - fish &amp; wildlife biologist 3 - permanent - 2026-06870 washington department of fish and wildlife olympia, wa"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Hatchery Data Steward - Fish &amp; Wildlife Biologist 3 - Permanent - 2026-06870</span>
+        <span class="job-row-meta">Washington Department of Fish and Wildlife &middot; Olympia, WA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 18, 2026 &middot; Closes Aug 27, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-district-forester-burney-forestry-district-burney-california/6120204936" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="district forester (burney forestry district) sierra pacific industries burney, ca"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">District Forester (Burney Forestry District)</span>
+        <span class="job-row-meta">Sierra Pacific Industries &middot; Burney, CA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 18, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-maryland-forester-remote-western-maryland-in-the-cumberland-md-area-work-will-occur-in-a-five-county-service-area-garrett-allegany-washington-frederick-and-carroll-counties-maryland/1106482625" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="maryland forester american bird conservancy remote; western maryland in the cumberland, md area. work will occur in a five-county service area: garrett, allegany, washington, frederick, and carroll counties., md"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Maryland Forester</span>
+        <span class="job-row-meta">American Bird Conservancy &middot; Remote; Western Maryland in the Cumberland, MD area. Work will occur in a five-county service area: Garrett, Allegany, Washington, Frederick, and Carroll Counties., MD &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 18, 2026 &middot; Closes Sep 9, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-senior-energy-and-climate-analyst-warrenton-virginia/3951728277" target="_blank" rel="noopener"
+       data-category="other" data-search="senior energy and climate analyst the piedmont environmental council warrenton, va"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Senior Energy and Climate Analyst</span>
+        <span class="job-row-meta">The Piedmont Environmental Council &middot; Warrenton, VA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 18, 2026 &middot; Closes Sep 7, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-naturalist-lakefield-minnesota/7462423286" target="_blank" rel="noopener"
+       data-category="other" data-search="naturalist wild compass environmental education lakefield, mn"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Naturalist</span>
+        <span class="job-row-meta">Wild Compass Environmental Education &middot; Lakefield, MN &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 18, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-natural-resource-scientist-1-wenatchee-washington/1318327850" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="natural resource scientist 1 washington state university wenatchee, wa"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Natural Resource Scientist 1</span>
+        <span class="job-row-meta">Washington State University &middot; Wenatchee, WA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 18, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-public-access-assistant-santa-cruz-california/4598614977" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="public access assistant land trust of santa cruz county santa cruz, ca"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Public Access Assistant</span>
+        <span class="job-row-meta">Land Trust of Santa Cruz County &middot; Santa Cruz, CA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 17, 2026 &middot; Closes Sep 11, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-district-forester-ryderwood-forestry-district-centralia-washington/9807374649" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="district forester (ryderwood forestry district) sierra pacific industries centralia, wa"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">District Forester (Ryderwood Forestry District)</span>
+        <span class="job-row-meta">Sierra Pacific Industries &middot; Centralia, WA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 17, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-district-forester-almanor-forestry-district-westwood-california/7989375112" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="district forester (almanor forestry district) sierra pacific industries westwood, ca"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">District Forester (Almanor Forestry District)</span>
+        <span class="job-row-meta">Sierra Pacific Industries &middot; Westwood, CA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 17, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-conservation-officer-statewide-idaho/6928525361" target="_blank" rel="noopener"
+       data-category="other" data-search="conservation officer idaho department of fish and game statewide, id"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Conservation Officer</span>
+        <span class="job-row-meta">Idaho Department of Fish and Game &middot; Statewide, ID &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 17, 2026 &middot; Closes Aug 31, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-job/5034c9bc250b4ed5bb17707165d780b8-breaking-barriers-collaborative-communications-manager-climate-solutions-seattle" target="_blank" rel="noopener"
        data-category="other" data-search="breaking barriers collaborative - communications manager climate solutions hybrid · seattle, wa · full time · usd $93,000 - $100,000 / year"
        data-2027="0" data-intern="0">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Breaking Barriers Collaborative - Communications Manager</span>
+        <span class="job-row-meta">Climate Solutions &middot; Hybrid · Seattle, WA · Full Time · USD $93,000 - $100,000 / year &middot; Idealist.org</span>
         
-        
-      </div>
-      <h3 class="card-title">Breaking Barriers Collaborative - Communications Manager</h3>
-      <div class="card-meta">Climate Solutions &middot; Hybrid · Seattle, WA · Full Time · USD $93,000 - $100,000 / year</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 17, 2026</div>
+      </span>
+      <span class="job-row-date">Posted Aug 17, 2026</span>
     </a>
     
-    <a class="card" href="https://www.idealist.org/en/nonprofit-job/d46af460d9074f7587f0b8662e6ad080-senior-global-warming-campaign-director-environment-america-boston" target="_blank" rel="noopener"
-       data-category="other" data-search="senior global warming campaign director environment america hybrid · boston, ma · full time · usd $42,000 - $60,000 / year"
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-job/d46af460d9074f7587f0b8662e6ad080-senior-global-warming-campaign-director-environment-america-boston" target="_blank" rel="noopener"
+       data-category="climate_policy" data-search="senior global warming campaign director environment america hybrid · boston, ma · full time · usd $42,000 - $60,000 / year"
        data-2027="0" data-intern="0">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
+      <span class="job-row-icon" style="color:var(--cat-climate_policy)" title="Climate Policy"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><ellipse cx="12" cy="12" rx="4" ry="9" fill="none" stroke="currentColor" stroke-width="2"/><line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Senior Global Warming Campaign Director</span>
+        <span class="job-row-meta">Environment America &middot; Hybrid · Boston, MA · Full Time · USD $42,000 - $60,000 / year &middot; Idealist.org</span>
         
-        
-      </div>
-      <h3 class="card-title">Senior Global Warming Campaign Director</h3>
-      <div class="card-meta">Environment America &middot; Hybrid · Boston, MA · Full Time · USD $42,000 - $60,000 / year</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 15, 2026</div>
+      </span>
+      <span class="job-row-date">Posted Aug 15, 2026</span>
     </a>
     
-    <a class="card" href="https://www.idealist.org/en/nonprofit-job/b71f9d95c25743d4ae62ff5489810a4f-forests-fire-and-communities-senior-program-manager-washington-conservation-action-seattle" target="_blank" rel="noopener"
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-coordinating-wildlife-biologist-craig-colorado/3615788539" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="coordinating wildlife biologist pheasants forever, inc., and quail forever craig, co"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Coordinating Wildlife Biologist</span>
+        <span class="job-row-meta">Pheasants Forever, Inc., and Quail Forever &middot; Craig, CO &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 14, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-wildlife-biologist-compliance-specialist-san-francisco-bay-area-california/2525380820" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="wildlife biologist, compliance specialist wra inc san francisco, bay area, ca"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Wildlife Biologist, Compliance Specialist</span>
+        <span class="job-row-meta">WRA Inc &middot; San Francisco, Bay Area, CA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 14, 2026 &middot; Closes Sep 30, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-district-forester-oregon-forestry-district-eugene-oregon/4869729698" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="district forester (oregon forestry district) sierra pacific industries eugene, or"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">District Forester (Oregon Forestry District)</span>
+        <span class="job-row-meta">Sierra Pacific Industries &middot; Eugene, OR &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 14, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-spatial-waterfowl-ecologist-bismarck-north-dakota/1443282871" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="spatial waterfowl ecologist us fish and wildlife service bismarck, nd"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Spatial Waterfowl Ecologist</span>
+        <span class="job-row-meta">US Fish and Wildlife Service &middot; Bismarck, ND &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 14, 2026 &middot; Closes Aug 27, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-climate-finance-campaign-contractor-british-columbia-canada/2933494563" target="_blank" rel="noopener"
+       data-category="climate_policy" data-search="climate finance campaign contractor stand.earth british columbia, canada"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-climate_policy)" title="Climate Policy"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><ellipse cx="12" cy="12" rx="4" ry="9" fill="none" stroke="currentColor" stroke-width="2"/><line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Climate Finance Campaign Contractor</span>
+        <span class="job-row-meta">Stand.earth &middot; British Columbia, Canada &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 14, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-job/b71f9d95c25743d4ae62ff5489810a4f-forests-fire-and-communities-senior-program-manager-washington-conservation-action-seattle" target="_blank" rel="noopener"
        data-category="other" data-search="forests, fire, and communities senior program manager washington conservation action hybrid · seattle, wa · full time · usd $73,000 / year"
        data-2027="0" data-intern="0">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Forests, Fire, and Communities Senior Program Manager</span>
+        <span class="job-row-meta">Washington Conservation Action &middot; Hybrid · Seattle, WA · Full Time · USD $73,000 / year &middot; Idealist.org</span>
         
-        
-      </div>
-      <h3 class="card-title">Forests, Fire, and Communities Senior Program Manager</h3>
-      <div class="card-meta">Washington Conservation Action &middot; Hybrid · Seattle, WA · Full Time · USD $73,000 / year</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 14, 2026</div>
+      </span>
+      <span class="job-row-date">Posted Aug 14, 2026</span>
     </a>
     
-    <a class="card" href="https://www.idealist.org/en/nonprofit-job/ab4a4d1432be409dbaa52a6ae8ad7387-olympic-program-manager-national-parks-conservation-association-seattle" target="_blank" rel="noopener"
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-regional-fisheries-supervisor-cheyenne-wyoming/5867385784" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="regional fisheries supervisor wyoming game &amp; fish cheyenne, wy"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Regional Fisheries Supervisor</span>
+        <span class="job-row-meta">Wyoming Game &amp; Fish &middot; Cheyenne, WY &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 13, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-fishery-biologistbiometrician-portland-oregon/3816800418" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="fishery biologist/biometrician pacific states marine fisheries commission portland, or"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Fishery Biologist/Biometrician</span>
+        <span class="job-row-meta">Pacific States Marine Fisheries Commission &middot; Portland, OR &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 13, 2026 &middot; Closes Sep 14, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-hatchery-operations-manager---region-4-central---wms-band-2---permanent---2026-06664-sultan-washington/7706887718" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="hatchery operations manager - region 4 central - wms band 2 - permanent - 2026-06664 washington department of fish and wildlife sultan, wa"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Hatchery Operations Manager - Region 4 Central - WMS Band 2 - Permanent - 2026-06664</span>
+        <span class="job-row-meta">Washington Department of Fish and Wildlife &middot; Sultan, WA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 13, 2026 &middot; Closes Sep 7, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-scientist-i---ecologist-stream-and-wetland-restoration-nashville-tennessee/3910094086" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="scientist i - ecologist (stream and wetland restoration) resource environmental solutions, llc nashville, tn"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Scientist I - Ecologist (Stream and Wetland Restoration)</span>
+        <span class="job-row-meta">Resource Environmental Solutions, LLC &middot; Nashville, TN &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 13, 2026 &middot; Closes Aug 28, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-range-ecologist-north-platte-nebraska/8059659950" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="range ecologist national audubon society north platte, ne"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Range Ecologist</span>
+        <span class="job-row-meta">National Audubon Society &middot; North Platte, NE &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 13, 2026 &middot; Closes Oct 1, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-ecologist-fairfax-california/1557297281" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="ecologist marin water fairfax, ca"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Ecologist</span>
+        <span class="job-row-meta">Marin Water &middot; Fairfax, CA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 13, 2026 &middot; Closes Sep 14, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-conservation-project-manager-columbia-maryland/5749824018" target="_blank" rel="noopener"
+       data-category="other" data-search="conservation project manager howard ecoworks columbia, md"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Conservation Project Manager</span>
+        <span class="job-row-meta">Howard Ecoworks &middot; Columbia, MD &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 13, 2026 &middot; Closes Sep 4, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-job/ab4a4d1432be409dbaa52a6ae8ad7387-olympic-program-manager-national-parks-conservation-association-seattle" target="_blank" rel="noopener"
        data-category="other" data-search="olympic program manager national parks conservation association hybrid · seattle, wa · full time · usd $69,000 - $80,000 / year"
        data-2027="0" data-intern="0">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Olympic Program Manager</span>
+        <span class="job-row-meta">National Parks Conservation Association &middot; Hybrid · Seattle, WA · Full Time · USD $69,000 - $80,000 / year &middot; Idealist.org</span>
         
-        
-      </div>
-      <h3 class="card-title">Olympic Program Manager</h3>
-      <div class="card-meta">National Parks Conservation Association &middot; Hybrid · Seattle, WA · Full Time · USD $69,000 - $80,000 / year</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 13, 2026</div>
+      </span>
+      <span class="job-row-date">Posted Aug 13, 2026</span>
     </a>
     
-    <a class="card" href="https://www.idealist.org/en/nonprofit-job/e7b5d0c415954e668782cb214bf6800f-client-support-advocate-bilingual-safe-alternatives-to-violent-environments-fremont" target="_blank" rel="noopener"
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-job/e7b5d0c415954e668782cb214bf6800f-client-support-advocate-bilingual-safe-alternatives-to-violent-environments-fremont" target="_blank" rel="noopener"
        data-category="other" data-search="client support advocate (bilingual) safe alternatives to violent environments on-site · fremont, ca · full time · usd $28.02 / hour"
        data-2027="0" data-intern="0">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Client Support Advocate (BILINGUAL)</span>
+        <span class="job-row-meta">Safe Alternatives to Violent Environments &middot; On-site · Fremont, CA · Full Time · USD $28.02 / hour &middot; Idealist.org</span>
         
-        
-      </div>
-      <h3 class="card-title">Client Support Advocate (BILINGUAL)</h3>
-      <div class="card-meta">Safe Alternatives to Violent Environments &middot; On-site · Fremont, CA · Full Time · USD $28.02 / hour</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 13, 2026</div>
+      </span>
+      <span class="job-row-date">Posted Aug 13, 2026</span>
     </a>
     
-    <a class="card" href="https://www.idealist.org/en/nonprofit-job/7505093ab5e24ddc948ab62e347c8192-safe-house-program-manager-safe-alternatives-to-violent-environments-fremont" target="_blank" rel="noopener"
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-job/7505093ab5e24ddc948ab62e347c8192-safe-house-program-manager-safe-alternatives-to-violent-environments-fremont" target="_blank" rel="noopener"
        data-category="other" data-search="safe house program manager safe alternatives to violent environments on-site · fremont, ca · full time · usd $70,000 - $74,000 / year"
        data-2027="0" data-intern="0">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Safe House Program Manager</span>
+        <span class="job-row-meta">Safe Alternatives to Violent Environments &middot; On-site · Fremont, CA · Full Time · USD $70,000 - $74,000 / year &middot; Idealist.org</span>
         
-        
-      </div>
-      <h3 class="card-title">Safe House Program Manager</h3>
-      <div class="card-meta">Safe Alternatives to Violent Environments &middot; On-site · Fremont, CA · Full Time · USD $70,000 - $74,000 / year</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 13, 2026</div>
+      </span>
+      <span class="job-row-date">Posted Aug 13, 2026</span>
     </a>
     
-    <a class="card" href="https://www.idealist.org/en/nonprofit-job/ef73ff0c59674f7c83ffd38bf7b557c4-safe-house-program-assistant-ft-and-pt-safe-alternatives-to-violent-environments-fremont" target="_blank" rel="noopener"
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-job/ef73ff0c59674f7c83ffd38bf7b557c4-safe-house-program-assistant-ft-and-pt-safe-alternatives-to-violent-environments-fremont" target="_blank" rel="noopener"
        data-category="other" data-search="safe house program assistant - (ft and pt) safe alternatives to violent environments on-site · fremont, ca · full time · usd $26.44 / hour"
        data-2027="0" data-intern="0">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Safe House Program Assistant - (FT and PT)</span>
+        <span class="job-row-meta">Safe Alternatives to Violent Environments &middot; On-site · Fremont, CA · Full Time · USD $26.44 / hour &middot; Idealist.org</span>
         
-        
-      </div>
-      <h3 class="card-title">Safe House Program Assistant - (FT and PT)</h3>
-      <div class="card-meta">Safe Alternatives to Violent Environments &middot; On-site · Fremont, CA · Full Time · USD $26.44 / hour</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 13, 2026</div>
+      </span>
+      <span class="job-row-date">Posted Aug 13, 2026</span>
     </a>
     
-    <a class="card" href="https://www.idealist.org/en/nonprofit-job/17de25b89f8f432db8b0d2fcc5d8d1d6-director-of-development-safe-alternatives-to-violent-environments-fremont" target="_blank" rel="noopener"
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-job/17de25b89f8f432db8b0d2fcc5d8d1d6-director-of-development-safe-alternatives-to-violent-environments-fremont" target="_blank" rel="noopener"
        data-category="other" data-search="director of development safe alternatives to violent environments on-site · fremont, ca · full time · usd $97,079 - $110,433 / year"
        data-2027="0" data-intern="0">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Director of Development</span>
+        <span class="job-row-meta">Safe Alternatives to Violent Environments &middot; On-site · Fremont, CA · Full Time · USD $97,079 - $110,433 / year &middot; Idealist.org</span>
         
-        
-      </div>
-      <h3 class="card-title">Director of Development</h3>
-      <div class="card-meta">Safe Alternatives to Violent Environments &middot; On-site · Fremont, CA · Full Time · USD $97,079 - $110,433 / year</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 13, 2026</div>
+      </span>
+      <span class="job-row-date">Posted Aug 13, 2026</span>
     </a>
     
-    <a class="card" href="https://www.idealist.org/en/nonprofit-job/e4c6a068331e46c6852c264f7ad101f7-nonprofit-advocacy-jobs-environment-america-seattle" target="_blank" rel="noopener"
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-mn-farm-bill-wildlife-biologist-i-ii-or-iii-faribault-minnesota/9911047588" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="mn farm bill wildlife biologist i, ii, or iii pheasants forever, inc., and quail forever faribault, mn"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">MN Farm Bill Wildlife Biologist I, II, or III</span>
+        <span class="job-row-meta">Pheasants Forever, Inc., and Quail Forever &middot; Faribault, MN &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 12, 2026 &middot; Closes Sep 1, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-il-farm-bill-wildlife-biologist-i-or-ii-normal-illinois/3886614212" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="il farm bill wildlife biologist i or ii pheasants forever, inc., and quail forever normal, il"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">IL Farm Bill Wildlife Biologist I or II</span>
+        <span class="job-row-meta">Pheasants Forever, Inc., and Quail Forever &middot; Normal, IL &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 12, 2026 &middot; Closes Aug 30, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-abandoned-mine-crew-carson-city-nevada/2884719340" target="_blank" rel="noopener"
+       data-category="other" data-search="abandoned mine crew environmental protection services carson city, nv"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Abandoned Mine Crew</span>
+        <span class="job-row-meta">Environmental Protection Services &middot; Carson City, NV &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 12, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-regional-wildlife-program-manager--region-4---wms-band-2---permanent---2026-06637-stanwood-washington/3435121558" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="regional wildlife program manager – region 4 - wms band 2 - permanent - 2026-06637 washington department of fish and wildlife stanwood, wa"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Regional Wildlife Program Manager – Region 4 - WMS Band 2 - Permanent - 2026-06637</span>
+        <span class="job-row-meta">Washington Department of Fish and Wildlife &middot; Stanwood, WA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 11, 2026 &middot; Closes Sep 7, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-habitat-acquisitions-and-partnerships-lead---environmental-planner-5---permanent---2026-06607-olympia-washington/6313792747" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="habitat acquisitions and partnerships lead - environmental planner 5 - permanent - 2026-06607 washington department of fish and wildlife olympia, wa"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Habitat Acquisitions and Partnerships Lead - Environmental Planner 5 - Permanent - 2026-06607</span>
+        <span class="job-row-meta">Washington Department of Fish and Wildlife &middot; Olympia, WA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 11, 2026 &middot; Closes Aug 28, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-small-aquatic-organism-imaging-lead-asheville-north-carolina/4617734365" target="_blank" rel="noopener"
+       data-category="other" data-search="small aquatic organism imaging lead tangled bank conservation asheville, nc"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Small Aquatic Organism Imaging Lead</span>
+        <span class="job-row-meta">Tangled Bank Conservation &middot; Asheville, NC &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 10, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-terracorps-land-stewardship-coordinator-at-brewster-conservation-trust-brewster-massachusetts/5583992459" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="terracorps land stewardship coordinator at brewster conservation trust terracorps brewster, ma"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">TerraCorps Land Stewardship Coordinator at Brewster Conservation Trust</span>
+        <span class="job-row-meta">TerraCorps &middot; Brewster, MA &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 10, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-job/e4c6a068331e46c6852c264f7ad101f7-nonprofit-advocacy-jobs-environment-america-seattle" target="_blank" rel="noopener"
        data-category="other" data-search="nonprofit advocacy jobs environment america on-site · seattle, wa · full time · usd $21.30 - $27 / hour"
        data-2027="0" data-intern="0">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Nonprofit Advocacy Jobs</span>
+        <span class="job-row-meta">Environment America &middot; On-site · Seattle, WA · Full Time · USD $21.30 - $27 / hour &middot; Idealist.org</span>
         
-        
-      </div>
-      <h3 class="card-title">Nonprofit Advocacy Jobs</h3>
-      <div class="card-meta">Environment America &middot; On-site · Seattle, WA · Full Time · USD $21.30 - $27 / hour</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 8, 2026</div>
+      </span>
+      <span class="job-row-date">Posted Aug 8, 2026</span>
     </a>
     
-    <a class="card" href="https://www.idealist.org/en/nonprofit-job/6f4e8a07f6784e90a262b98f74721976-field-office-director-environment-america-seattle" target="_blank" rel="noopener"
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-job/6f4e8a07f6784e90a262b98f74721976-field-office-director-environment-america-seattle" target="_blank" rel="noopener"
        data-category="other" data-search="field office director environment america on-site · seattle, wa · full time · usd $40,000 - $53,750 / year"
        data-2027="0" data-intern="0">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Field Office Director</span>
+        <span class="job-row-meta">Environment America &middot; On-site · Seattle, WA · Full Time · USD $40,000 - $53,750 / year &middot; Idealist.org</span>
         
-        
-      </div>
-      <h3 class="card-title">Field Office Director</h3>
-      <div class="card-meta">Environment America &middot; On-site · Seattle, WA · Full Time · USD $40,000 - $53,750 / year</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 8, 2026</div>
+      </span>
+      <span class="job-row-date">Posted Aug 8, 2026</span>
     </a>
     
-    <a class="card" href="https://www.idealist.org/en/nonprofit-job/8c95a479dcb840bba769e0b769874b6b-sustainability-campaigner-green-corps-phoenix" target="_blank" rel="noopener"
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-job/8c95a479dcb840bba769e0b769874b6b-sustainability-campaigner-green-corps-phoenix" target="_blank" rel="noopener"
        data-category="other" data-search="sustainability campaigner green corps on-site · phoenix, az · full time · usd $40,000 - $44,450 / year"
        data-2027="0" data-intern="0">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Sustainability Campaigner</span>
+        <span class="job-row-meta">Green Corps &middot; On-site · Phoenix, AZ · Full Time · USD $40,000 - $44,450 / year &middot; Idealist.org</span>
         
-        
-      </div>
-      <h3 class="card-title">Sustainability Campaigner</h3>
-      <div class="card-meta">Green Corps &middot; On-site · Phoenix, AZ · Full Time · USD $40,000 - $44,450 / year</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 8, 2026</div>
+      </span>
+      <span class="job-row-date">Posted Aug 8, 2026</span>
     </a>
     
-    <a class="card" href="https://www.idealist.org/en/nonprofit-job/f14c8286c4984b6083879af1995570d1-nonprofit-advocacy-jobs-environment-america-boston" target="_blank" rel="noopener"
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-job/f14c8286c4984b6083879af1995570d1-nonprofit-advocacy-jobs-environment-america-boston" target="_blank" rel="noopener"
        data-category="other" data-search="nonprofit advocacy jobs environment america on-site · boston, ma · full time · usd $18 - $22 / hour"
        data-2027="0" data-intern="0">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Nonprofit Advocacy Jobs</span>
+        <span class="job-row-meta">Environment America &middot; On-site · Boston, MA · Full Time · USD $18 - $22 / hour &middot; Idealist.org</span>
         
-        
-      </div>
-      <h3 class="card-title">Nonprofit Advocacy Jobs</h3>
-      <div class="card-meta">Environment America &middot; On-site · Boston, MA · Full Time · USD $18 - $22 / hour</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 8, 2026</div>
+      </span>
+      <span class="job-row-date">Posted Aug 8, 2026</span>
     </a>
     
-    <a class="card" href="https://www.idealist.org/en/nonprofit-job/0110ed0c3a844f7cb3cf1f085771a82e-field-office-director-environment-america-boston" target="_blank" rel="noopener"
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-job/0110ed0c3a844f7cb3cf1f085771a82e-field-office-director-environment-america-boston" target="_blank" rel="noopener"
        data-category="other" data-search="field office director environment america on-site · boston, ma · full time · usd $40,000 - $53,750 / year"
        data-2027="0" data-intern="0">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Field Office Director</span>
+        <span class="job-row-meta">Environment America &middot; On-site · Boston, MA · Full Time · USD $40,000 - $53,750 / year &middot; Idealist.org</span>
         
-        
-      </div>
-      <h3 class="card-title">Field Office Director</h3>
-      <div class="card-meta">Environment America &middot; On-site · Boston, MA · Full Time · USD $40,000 - $53,750 / year</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 8, 2026</div>
+      </span>
+      <span class="job-row-date">Posted Aug 8, 2026</span>
     </a>
     
-    <a class="card" href="https://www.idealist.org/en/nonprofit-job/e87573e1aa3e4757bd1332830154b92a-shareholder-advocate-for-environmentally-responsible-mutual-fund-the-public-interest-network-boston" target="_blank" rel="noopener"
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-job/e87573e1aa3e4757bd1332830154b92a-shareholder-advocate-for-environmentally-responsible-mutual-fund-the-public-interest-network-boston" target="_blank" rel="noopener"
        data-category="other" data-search="shareholder advocate for environmentally responsible mutual fund the public interest network hybrid · boston, ma · full time · usd $40,000 - $46,000 / year"
        data-2027="0" data-intern="0">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Shareholder Advocate for Environmentally Responsible Mutual Fund</span>
+        <span class="job-row-meta">The Public Interest Network &middot; Hybrid · Boston, MA · Full Time · USD $40,000 - $46,000 / year &middot; Idealist.org</span>
         
-        
-      </div>
-      <h3 class="card-title">Shareholder Advocate for Environmentally Responsible Mutual Fund</h3>
-      <div class="card-meta">The Public Interest Network &middot; Hybrid · Boston, MA · Full Time · USD $40,000 - $46,000 / year</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 8, 2026</div>
+      </span>
+      <span class="job-row-date">Posted Aug 8, 2026</span>
     </a>
     
-    <a class="card" href="https://www.idealist.org/en/nonprofit-internship/32858ef963bc446caed2e99ccc07fe1d-charlotte-e-ray-legal-fellowship-the-conservation-law-foundation-boston" target="_blank" rel="noopener"
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-internship/32858ef963bc446caed2e99ccc07fe1d-charlotte-e-ray-legal-fellowship-the-conservation-law-foundation-boston" target="_blank" rel="noopener"
        data-category="other" data-search="charlotte e. ray legal fellowship the conservation law foundation hybrid · massachusetts, us"
        data-2027="0" data-intern="1">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
-        <span class="badge badge-intern">INTERNSHIP / ENTRY-LEVEL</span>
-        
-      </div>
-      <h3 class="card-title">Charlotte E. Ray Legal Fellowship</h3>
-      <div class="card-meta">The Conservation Law Foundation &middot; Hybrid · Massachusetts, US</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 6, 2026</div>
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Charlotte E. Ray Legal Fellowship</span>
+        <span class="job-row-meta">The Conservation Law Foundation &middot; Hybrid · Massachusetts, US &middot; Idealist.org</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 6, 2026</span>
     </a>
     
-    <a class="card" href="https://www.idealist.org/en/nonprofit-job/5e77f7324b4e4962b4f562ee92bc9649-conservation-organizer-environment-america-boston" target="_blank" rel="noopener"
-       data-category="other" data-search="conservation organizer environment america hybrid · boston, ma · full time · usd $39,750 - $46,000 / year"
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-director-of-extension-fire-program-and-asstassoc-professor-statewide-oregon/2924426928" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="director of extension fire program and asst/assoc professor oregon state university college of forestry statewide, or"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Director of Extension Fire Program and Asst/Assoc Professor</span>
+        <span class="job-row-meta">Oregon State University College of Forestry &middot; Statewide, OR &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Aug 5, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-clean-energy-policy-advisor-arizona-phoenix-tuscon-arizona/2306086878" target="_blank" rel="noopener"
+       data-category="climate_policy" data-search="clean energy policy advisor, arizona western resource advocates (wra) phoenix-tuscon, az"
        data-2027="0" data-intern="0">
-      <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-other)"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>Other Environmental</span>
+      <span class="job-row-icon" style="color:var(--cat-climate_policy)" title="Climate Policy"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><ellipse cx="12" cy="12" rx="4" ry="9" fill="none" stroke="currentColor" stroke-width="2"/><line x1="3" y1="12" x2="21" y2="12" stroke="currentColor" stroke-width="2"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Clean Energy Policy Advisor, Arizona</span>
+        <span class="job-row-meta">Western Resource Advocates (WRA) &middot; Phoenix-Tuscon, AZ &middot; ConservationJobBoard.com</span>
         
+      </span>
+      <span class="job-row-date">Posted Aug 5, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-watershed-scientist--program-manager-glen-arbor-michigan/2190395422" target="_blank" rel="noopener"
+       data-category="other" data-search="watershed scientist &amp; program manager glen lake association glen arbor, mi"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-other)" title="Other Environmental"><svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Watershed Scientist &amp; Program Manager</span>
+        <span class="job-row-meta">Glen Lake Association &middot; Glen Arbor, MI &middot; ConservationJobBoard.com</span>
         
-      </div>
-      <h3 class="card-title">Conservation Organizer</h3>
-      <div class="card-meta">Environment America &middot; Hybrid · Boston, MA · Full Time · USD $39,750 - $46,000 / year</div>
-      
-      <div class="card-footer"><span class="src-badge">Idealist.org</span> &middot; Posted Aug 1, 2026</div>
+      </span>
+      <span class="job-row-date">Posted Aug 3, 2026 &middot; Closes Sep 1, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.idealist.org/en/nonprofit-job/5e77f7324b4e4962b4f562ee92bc9649-conservation-organizer-environment-america-boston" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="conservation organizer environment america hybrid · boston, ma · full time · usd $39,750 - $46,000 / year"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Conservation Organizer</span>
+        <span class="job-row-meta">Environment America &middot; Hybrid · Boston, MA · Full Time · USD $39,750 - $46,000 / year &middot; Idealist.org</span>
+        
+      </span>
+      <span class="job-row-date">Posted Aug 1, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-conservation-ecology-program-manager--senior-manager-joshua-tree-california/5921266018" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="conservation ecology program manager / senior manager mojave desert land trust joshua tree, ca"
+       data-2027="0" data-intern="0">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Conservation Ecology Program Manager / Senior Manager</span>
+        <span class="job-row-meta">Mojave Desert Land Trust &middot; Joshua Tree, CA &middot; ConservationJobBoard.com</span>
+        
+      </span>
+      <span class="job-row-date">Posted Jul 31, 2026</span>
+    </a>
+    
+    <a class="job-row" href="https://www.conservationjobboard.com/job-listing-washington-conservation-corps-member-multiple-locations-washington/1989306844" target="_blank" rel="noopener"
+       data-category="conservation_biology" data-search="washington conservation corps member washington conservation corps multiple locations, wa"
+       data-2027="0" data-intern="1">
+      <span class="job-row-icon" style="color:var(--cat-conservation_biology)" title="Conservation Biology"><svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M12 21V9" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg></span>
+      <span class="job-row-body">
+        <span class="job-row-title">Washington Conservation Corps Member</span>
+        <span class="job-row-meta">Washington Conservation Corps &middot; Multiple Locations, WA &middot; ConservationJobBoard.com</span>
+        <span class="job-row-tags"><span class="tag tag-intern">Internship / entry-level</span></span>
+      </span>
+      <span class="job-row-date">Posted Jul 28, 2026</span>
     </a>
     </div>
-    <div class="empty-state" id="emptyState" style="display:none">No listings match these filters right now &mdash; try clearing the search or picking a different category.</div>
-    <footer class="site-footer">
-      Built as a personal aggregator &mdash; every card links straight to the original posting on its source
-      site, nothing is hosted here beyond a short summary. Categorization is automatic (keyword-based) and
-      can occasionally miscategorize or miss a listing; when in doubt, check the source site directly.
-      Refreshes automatically on a schedule &mdash; see the
-      <a href="https://github.com/joshuam0y/conservation-climate-jobs" target="_blank" rel="noopener">README</a>
-      for how this works and how to add more sources.
-    </footer>
+      <div class="empty-state" id="emptyState" style="display:none">No listings match these filters right now &mdash; try clearing the search or picking a different category.</div>
+    </main>
   </div>
+  <footer class="site-footer">
+    Refreshes automatically on a schedule &mdash; see the
+    <a href="https://github.com/joshuam0y/conservation-climate-jobs" target="_blank" rel="noopener">README</a>
+    for how this works and how to add more sources.
+  </footer>
 
 <script>
 function initTheme() {
@@ -423,13 +1427,13 @@ function applyFilters() {
   const only2027 = document.getElementById('only2027').checked;
   const onlyIntern = document.getElementById('onlyIntern').checked;
   let visible = 0;
-  document.querySelectorAll('.card').forEach(function (card) {
+  document.querySelectorAll('.job-row').forEach(function (row) {
     let show = true;
-    if (activeCategory !== 'all' && card.dataset.category !== activeCategory) show = false;
-    if (only2027 && card.dataset['2027'] !== '1') show = false;
-    if (onlyIntern && card.dataset.intern !== '1') show = false;
-    if (search && card.dataset.search.indexOf(search) === -1) show = false;
-    card.style.display = show ? '' : 'none';
+    if (activeCategory !== 'all' && row.dataset.category !== activeCategory) show = false;
+    if (only2027 && row.dataset['2027'] !== '1') show = false;
+    if (onlyIntern && row.dataset.intern !== '1') show = false;
+    if (search && row.dataset.search.indexOf(search) === -1) show = false;
+    row.style.display = show ? '' : 'none';
     if (show) visible++;
   });
   document.getElementById('resultCount').textContent = visible + ' listing' + (visible === 1 ? '' : 's') + ' shown';
@@ -439,11 +1443,11 @@ function applyFilters() {
 
 document.addEventListener('DOMContentLoaded', function () {
   initTheme();
-  document.querySelectorAll('.filter-pill').forEach(function (pill) {
-    pill.addEventListener('click', function () {
-      document.querySelectorAll('.filter-pill').forEach(function (p) { p.classList.remove('on'); });
-      pill.classList.add('on');
-      activeCategory = pill.dataset.category;
+  document.querySelectorAll('.nav-item').forEach(function (item) {
+    item.addEventListener('click', function () {
+      document.querySelectorAll('.nav-item').forEach(function (p) { p.classList.remove('on'); });
+      item.classList.add('on');
+      activeCategory = item.dataset.category;
       applyFilters();
     });
   });
