@@ -31,6 +31,33 @@ CATEGORY_COLORS = {
 
 SOURCE_LABELS = {"USAJOBS": "USAJOBS.gov", "Idealist": "Idealist.org"}
 
+# Built from basic primitives (circle/line/polygon/ellipse), not hand-drawn
+# bezier paths -- easy to reason about correctness without a design tool,
+# and rendering was checked with a real screenshot before shipping.
+CATEGORY_ICONS = {
+    "conservation_biology": (
+        '<svg viewBox="0 0 24 24"><path d="M12 21c-4-1-7-5-7-10a9 9 0 0 1 9-8c5 0 9 3 9 8 0 6-6 9-6 9" '
+        'fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round"/>'
+        '<path d="M12 21V9" stroke="#fff" stroke-width="2" stroke-linecap="round"/></svg>'
+    ),
+    "environmental_justice": (
+        '<svg viewBox="0 0 24 24"><line x1="12" y1="3" x2="12" y2="19" stroke="#fff" stroke-width="2" stroke-linecap="round"/>'
+        '<line x1="5" y1="6" x2="19" y2="6" stroke="#fff" stroke-width="2" stroke-linecap="round"/>'
+        '<line x1="8" y1="19" x2="16" y2="19" stroke="#fff" stroke-width="2" stroke-linecap="round"/>'
+        '<circle cx="5" cy="10" r="3" fill="none" stroke="#fff" stroke-width="2"/>'
+        '<circle cx="19" cy="10" r="3" fill="none" stroke="#fff" stroke-width="2"/></svg>'
+    ),
+    "climate_policy": (
+        '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="#fff" stroke-width="2"/>'
+        '<ellipse cx="12" cy="12" rx="4" ry="9" fill="none" stroke="#fff" stroke-width="2"/>'
+        '<line x1="3" y1="12" x2="21" y2="12" stroke="#fff" stroke-width="2"/></svg>'
+    ),
+    "other": (
+        '<svg viewBox="0 0 24 24"><polygon points="12,3 15,9 21,10 16.5,14.5 18,21 12,17.5 6,21 7.5,14.5 3,10 9,9" '
+        'fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></svg>'
+    ),
+}
+
 
 def _fmt_date(iso_str):
     if not iso_str:
@@ -71,7 +98,7 @@ def _card_html(row):
        data-category="{cat}" data-search="{html.escape((row['title'] + ' ' + (row['organization'] or '') + ' ' + (row['location'] or '')).lower())}"
        data-2027="{'1' if row['summer_2027'] else '0'}" data-intern="{'1' if row['internship_tag'] else '0'}">
       <div class="card-top">
-        <span class="badge badge-cat" style="background:var(--cat-{cat})">{html.escape(cat_label)}</span>
+        <span class="badge badge-cat" style="background:var(--cat-{cat})">{CATEGORY_ICONS.get(cat, "")}{html.escape(cat_label)}</span>
         {intern_badge}
         {summer_badge}
       </div>
@@ -156,13 +183,19 @@ STYLE = """
 
   .grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 12px; }
   .card {
-    display: block; background: var(--surface); border: 1px solid var(--border); border-radius: 14px;
-    padding: 14px 16px; box-shadow: var(--shadow); text-decoration: none; color: inherit;
-    transition: transform .08s, box-shadow .08s;
+    display: block; background: var(--surface); border: 1px solid var(--border); border-left: 4px solid var(--cat-other);
+    border-radius: 10px 14px 14px 10px; padding: 14px 16px; box-shadow: var(--shadow); text-decoration: none;
+    color: inherit; transition: transform .08s, box-shadow .08s;
   }
+  .card[data-category="conservation_biology"] { border-left-color: var(--cat-conservation_biology); }
+  .card[data-category="environmental_justice"] { border-left-color: var(--cat-environmental_justice); }
+  .card[data-category="climate_policy"] { border-left-color: var(--cat-climate_policy); }
+  .card[data-category="other"] { border-left-color: var(--cat-other); }
   .card:hover { transform: translateY(-2px); box-shadow: 0 4px 8px rgba(0,0,0,.08), 0 14px 26px rgba(0,0,0,.10); }
   .card-top { display: flex; justify-content: space-between; align-items: flex-start; gap: 6px; margin-bottom: 8px; flex-wrap: wrap; }
   .badge { font-size: 10.5px; font-weight: 700; letter-spacing: .02em; border-radius: 999px; padding: 3px 9px; color: #fff; white-space: nowrap; }
+  .badge-cat { display: inline-flex; align-items: center; gap: 4px; }
+  .badge-cat svg { width: 11px; height: 11px; fill: #fff; flex: none; }
   .badge-2027 { background: var(--accent-bg); color: var(--accent); }
   .badge-intern { background: var(--surface-2); color: var(--ink-dim); border: 1px solid var(--border); }
   .card-title { font-size: 15.5px; font-weight: 700; margin: 0 0 4px; line-height: 1.3; color: var(--ink); }
