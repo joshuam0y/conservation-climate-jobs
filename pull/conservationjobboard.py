@@ -25,7 +25,7 @@ from datetime import datetime, timedelta, timezone
 import requests
 from bs4 import BeautifulSoup
 
-from categorize import categorize, is_internship_like, is_postdoc_or_phd, is_senior_level, mentions_2027
+from categorize import categorize, is_fellowship_title, is_internship_like, is_postdoc_or_phd, is_senior_level, mentions_2027
 
 SEARCH_URL = "https://www.conservationjobboard.com/intermediate-search"
 
@@ -153,6 +153,7 @@ def fetch():
                     # site itself, more reliable than keyword-guessing --
                     # either one is enough to tag it.
                     "internship_tag": parsed["experience"] == "entry-level" or is_internship_like(title, combined),
+                    "content_type": "fellowship" if is_fellowship_title(title) else "job",
                 }
             )
         time.sleep(1)  # polite delay between queries

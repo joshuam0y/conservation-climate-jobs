@@ -43,7 +43,7 @@ import re
 import time
 from datetime import datetime, timedelta, timezone
 
-from categorize import categorize, is_internship_like, is_postdoc_or_phd, is_senior_level, mentions_2027
+from categorize import categorize, is_fellowship_title, is_internship_like, is_postdoc_or_phd, is_senior_level, mentions_2027
 
 SEARCH_TERMS = [
     "conservation",
@@ -166,6 +166,7 @@ def fetch():
                                     "close_date": None,
                                     "summer_2027": mentions_2027(title, combined),
                                     "internship_tag": is_internship_like(title, combined),
+                    "content_type": "fellowship" if is_fellowship_title(title) else "job",
                                 }
                             )
                     except Exception as e:

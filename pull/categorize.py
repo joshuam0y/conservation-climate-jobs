@@ -88,6 +88,19 @@ INTERNSHIP_LIKE = re.compile(
     re.IGNORECASE,
 )
 
+# Narrower than INTERNSHIP_LIKE (which also matches "seasonal"/"pathways"
+# etc.) -- this is specifically for deciding content_type ("job" vs
+# "fellowship"), not the separate internship/entry-level tag a job can
+# also carry.
+FELLOWSHIP_TITLE = re.compile(r"\bfellow(ship)?s?\b", re.IGNORECASE)
+
+
+def is_fellowship_title(title):
+    return bool(FELLOWSHIP_TITLE.search(title or ""))
+
+
+CONTENT_TYPE_LABELS = {"job": "Jobs & Internships", "fellowship": "Fellowships", "conference": "Conferences"}
+
 # Deliberately narrow, unlike INTERNSHIP_LIKE -- nonprofit/advocacy titles
 # inflate ("Senior Campaign Director" at $42-60k is a real early-career
 # salary, confirmed live) so title alone is an unreliable senior-level

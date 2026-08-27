@@ -26,7 +26,7 @@ color swatch.
 import html
 from datetime import datetime, timezone
 
-from categorize import CATEGORY_LABELS
+from categorize import CATEGORY_LABELS, CONTENT_TYPE_LABELS
 from db import get_conn
 
 CATEGORY_COLORS = {
@@ -41,6 +41,7 @@ SOURCE_LABELS = {
     "Idealist": "Idealist.org",
     "ConservationJobBoard": "ConservationJobBoard.com",
     "EcoJobs": "EcoJobs.com",
+    "Curated": "curated list",
 }
 
 # Built from basic primitives (circle/line/polygon/ellipse), not hand-drawn
@@ -84,10 +85,9 @@ def _fmt_date(iso_str):
 
 def _row_html(row):
     cat = row["category"]
+    ctype = row["content_type"] or "job"
     cat_label = CATEGORY_LABELS.get(cat, "Other Environmental")
     source_label = SOURCE_LABELS.get(row["source"], row["source"])
-    posted = _fmt_date(row["posted_date"])
-    close = _fmt_date(row["close_date"])
 
     meta_bits = []
     if row["organization"]:
@@ -97,24 +97,39 @@ def _row_html(row):
     meta_bits.append(source_label)
     meta_line = " &middot; ".join(meta_bits)
 
+    # A conference's relevant dates are when it HAPPENS, not when it was
+    # posted/closes -- entirely different fields, shown instead of (not
+    # alongside) the job-style posted/deadline line.
     date_bits = []
-    if posted:
-        date_bits.append(f"Posted {posted}")
-    if close:
-        date_bits.append(f"Closes {close}")
+    if ctype == "conference":
+        start, end = _fmt_date(row["event_start"]), _fmt_date(row["event_end"])
+        if start and end and start != end:
+            date_bits.append(f"{start} &ndash; {end}")
+        elif start:
+            date_bits.append(start)
+    else:
+        posted, close = _fmt_date(row["posted_date"]), _fmt_date(row["close_date"])
+        if posted:
+            date_bits.append(f"Posted {posted}")
+        if close:
+            date_bits.append(f"Closes {close}")
     date_line = " &middot; ".join(date_bits)
 
     tags_html = ""
+    if ctype == "fellowship":
+        tags_html += '<span class="tag tag-type">Fellowship</span>'
+    elif ctype == "conference":
+        tags_html += '<span class="tag tag-type">Conference</span>'
     if row["internship_tag"]:
         tags_html += '<span class="tag tag-intern">Internship / entry-level</span>'
     if row["summer_2027"]:
-        tags_html += '<span class="tag tag-2027">Summer 2027 mentioned</span>'
+        tags_html += '<span class="tag tag-2027">Summer 2027</span>'
 
     search_blob = html.escape((row["title"] + " " + (row["organization"] or "") + " " + (row["location"] or "")).lower())
 
     return f"""
     <a class="job-row" href="{html.escape(row['url'])}" target="_blank" rel="noopener"
-       data-category="{cat}" data-search="{search_blob}"
+       data-category="{cat}" data-type="{ctype}" data-search="{search_blob}"
        data-2027="{'1' if row['summer_2027'] else '0'}" data-intern="{'1' if row['internship_tag'] else '0'}">
       <span class="job-row-icon" style="color:var(--cat-{cat})" title="{html.escape(cat_label)}">{CATEGORY_ICONS.get(cat, "")}</span>
       <span class="job-row-body">
@@ -214,12 +229,27 @@ STYLE = """
   }
   .job-row-icon svg { width: 16px; height: 16px; }
   .job-row-body { flex: 1; min-width: 0; display: flex; flex-direction: column; gap: 2px; }
+  .job-row-title, .job-row-meta { min-width: 0; overflow-wrap: break-word; }
   .job-row-title { font-size: 14.5px; font-weight: 700; color: var(--ink); }
   .job-row-meta { font-size: 12.5px; color: var(--ink-dim); }
   .job-row-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 2px; }
   .tag { font-size: 10.5px; font-weight: 700; border-radius: 5px; padding: 2px 7px; }
   .tag-intern { background: var(--surface-2); color: var(--ink-dim); border: 1px solid var(--border); }
   .tag-2027 { background: var(--accent-bg); color: var(--accent); }
+  .tag-type { background: var(--surface-2); color: var(--ink-dim); border: 1px solid var(--border); }
+
+  .type-tabs {
+    display: flex; gap: 4px; margin-bottom: 12px; border-bottom: 1px solid var(--border);
+    overflow-x: auto; -webkit-overflow-scrolling: touch; min-width: 0; max-width: 100%;
+  }
+  .type-tab {
+    background: none; border: none; border-bottom: 2px solid transparent; padding: 8px 4px; margin-right: 14px;
+    font-size: 13.5px; font-weight: 600; color: var(--ink-dim); cursor: pointer; font-family: inherit;
+    white-space: nowrap; flex: none;
+  }
+  .type-tab:hover { color: var(--ink); }
+  .type-tab.on { color: var(--ink); border-bottom-color: var(--accent); }
+  .type-tab .count { color: var(--ink-muted); font-weight: 700; margin-left: 4px; }
   .job-row-date { flex: none; font-size: 11.5px; color: var(--ink-muted); text-align: right; white-space: nowrap; padding-top: 2px; }
 
   .empty-state { text-align: center; padding: 60px 20px; color: var(--ink-muted); }
@@ -229,7 +259,16 @@ STYLE = """
   footer.site-footer a { color: var(--accent); }
 
   @media (max-width: 760px) {
-    .layout { flex-direction: column; }
+    /* align-items:flex-start above (needed on desktop so a short sidebar
+       doesn't stretch to match a much taller job list) means cross-axis
+       children size to their own content's natural width instead of
+       filling it once .layout becomes a column -- .main was sizing itself
+       to the type-tabs row's full unwrapped width (482px) and dragging
+       the whole page into horizontal scroll on narrow viewports.
+       align-items:stretch here is the fix; each child still controls its
+       own max-width/overflow internally. */
+    .layout { flex-direction: column; align-items: stretch; }
+    .main { min-width: 0; }
     .sidebar { width: 100%; position: static; }
     .nav-list { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 12px; }
     .nav-item { width: auto; border-left: none; border-bottom: 3px solid transparent; border-radius: 6px 6px 0 0; }
@@ -262,6 +301,7 @@ function initTheme() {
 }
 
 let activeCategory = 'all';
+let activeType = 'all';
 function applyFilters() {
   const search = document.getElementById('searchBox').value.trim().toLowerCase();
   const only2027 = document.getElementById('only2027').checked;
@@ -270,13 +310,14 @@ function applyFilters() {
   document.querySelectorAll('.job-row').forEach(function (row) {
     let show = true;
     if (activeCategory !== 'all' && row.dataset.category !== activeCategory) show = false;
+    if (activeType !== 'all' && row.dataset.type !== activeType) show = false;
     if (only2027 && row.dataset['2027'] !== '1') show = false;
     if (onlyIntern && row.dataset.intern !== '1') show = false;
     if (search && row.dataset.search.indexOf(search) === -1) show = false;
     row.style.display = show ? '' : 'none';
     if (show) visible++;
   });
-  document.getElementById('resultCount').textContent = visible + ' listing' + (visible === 1 ? '' : 's') + ' shown';
+  document.getElementById('resultCount').textContent = visible + ' shown';
   const empty = document.getElementById('emptyState');
   if (empty) empty.style.display = visible === 0 ? 'block' : 'none';
 }
@@ -288,6 +329,14 @@ document.addEventListener('DOMContentLoaded', function () {
       document.querySelectorAll('.nav-item').forEach(function (p) { p.classList.remove('on'); });
       item.classList.add('on');
       activeCategory = item.dataset.category;
+      applyFilters();
+    });
+  });
+  document.querySelectorAll('.type-tab').forEach(function (tab) {
+    tab.addEventListener('click', function () {
+      document.querySelectorAll('.type-tab').forEach(function (p) { p.classList.remove('on'); });
+      tab.classList.add('on');
+      activeType = tab.dataset.type;
       applyFilters();
     });
   });
@@ -308,16 +357,25 @@ def render():
     conn.close()
 
     counts = {"conservation_biology": 0, "environmental_justice": 0, "climate_policy": 0, "other": 0}
+    type_counts = {"job": 0, "fellowship": 0, "conference": 0}
     sources = set()
     summer_2027_count = 0
     internship_count = 0
     for r in rows:
         counts[r["category"]] = counts.get(r["category"], 0) + 1
+        type_counts[r["content_type"] or "job"] = type_counts.get(r["content_type"] or "job", 0) + 1
         sources.add(r["source"])
         if r["summer_2027"]:
             summer_2027_count += 1
         if r["internship_tag"]:
             internship_count += 1
+
+    type_tabs = f'<button type="button" class="type-tab on" data-type="all">All<span class="count">{len(rows)}</span></button>'
+    for ctype, label in CONTENT_TYPE_LABELS.items():
+        type_tabs += (
+            f'<button type="button" class="type-tab" data-type="{ctype}">'
+            f'{html.escape(label)}<span class="count">{type_counts.get(ctype, 0)}</span></button>'
+        )
 
     nav_items = [
         f'<li><button type="button" class="nav-item on" data-category="all" style="--nav-color:var(--cat-all)">'
@@ -360,8 +418,8 @@ def render():
   <header class="site">
     <div>
       <h1 class="brand">Conservation &amp; Climate Jobs</h1>
-      <p class="tagline">Internships, fellowships, and entry-level roles in conservation biology, environmental
-         justice, and climate policy, pulled automatically from multiple job sites and refreshed on a schedule.</p>
+      <p class="tagline">Internships, fellowships, and conferences in conservation biology, environmental
+         justice, and climate policy, pulled automatically from multiple sites and refreshed on a schedule.</p>
       <div class="header-meta">Sources checked: {html.escape(source_list)} &middot; Last updated {generated_at}</div>
     </div>
     <button type="button" class="theme-toggle" id="themeToggle">Switch to dark</button>
@@ -380,6 +438,7 @@ def render():
       </div>
     </aside>
     <main class="main">
+      <div class="type-tabs">{type_tabs}</div>
       <div id="resultCount"></div>
       <div class="job-list">{rows_html}</div>
       {empty_state}

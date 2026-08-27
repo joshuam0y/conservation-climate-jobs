@@ -13,6 +13,7 @@ import it, and add it to SOURCES below.
 
 from datetime import datetime, timezone
 
+import conferences
 import conservationjobboard
 import ecojobs
 import idealist
@@ -27,7 +28,7 @@ from render import write as render_write
 # so this is deliberately more forgiving than "missing from today's run".
 STALE_AFTER_DAYS = 5
 
-SOURCES = [usajobs.fetch, idealist.fetch, conservationjobboard.fetch, ecojobs.fetch]
+SOURCES = [usajobs.fetch, idealist.fetch, conservationjobboard.fetch, ecojobs.fetch, conferences.fetch]
 
 
 def upsert(conn, listings):
@@ -36,19 +37,22 @@ def upsert(conn, listings):
         conn.execute(
             """
             INSERT INTO listings (url, source, title, organization, location, category, summary,
-                                   posted_date, close_date, summer_2027, internship_tag,
-                                   first_seen, last_seen, active)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
+                                   posted_date, close_date, summer_2027, internship_tag, content_type,
+                                   event_start, event_end, first_seen, last_seen, active)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 1)
             ON CONFLICT(url) DO UPDATE SET
                 title=excluded.title, organization=excluded.organization, location=excluded.location,
                 category=excluded.category, summary=excluded.summary, posted_date=excluded.posted_date,
                 close_date=excluded.close_date, summer_2027=excluded.summer_2027,
-                internship_tag=excluded.internship_tag, last_seen=excluded.last_seen, active=1
+                internship_tag=excluded.internship_tag, content_type=excluded.content_type,
+                event_start=excluded.event_start, event_end=excluded.event_end,
+                last_seen=excluded.last_seen, active=1
             """,
             (
                 item["url"], item["source"], item["title"], item.get("organization"), item.get("location"),
                 item["category"], item.get("summary") or "", item.get("posted_date"), item.get("close_date"),
-                1 if item.get("summer_2027") else 0, 1 if item.get("internship_tag") else 0, now, now,
+                1 if item.get("summer_2027") else 0, 1 if item.get("internship_tag") else 0,
+                item.get("content_type", "job"), item.get("event_start"), item.get("event_end"), now, now,
             ),
         )
     conn.commit()

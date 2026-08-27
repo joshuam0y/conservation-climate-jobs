@@ -1,17 +1,19 @@
 # Conservation & Climate Jobs Tracker
 
-A live, auto-updating list of internships, fellowships, and entry-level roles in
-**Conservation Biology**, **Environmental Justice**, and **Climate Policy** (plus a
-catch-all **Other** category for anything environmental that doesn't fit those three) —
-pulled automatically from multiple job sites, refreshed twice a day, with a highlight
-for anything that mentions Summer 2027.
+A live, auto-updating tracker for **jobs & internships**, **fellowships**, and
+**conferences** in **Conservation Biology**, **Environmental Justice**, and **Climate
+Policy** (plus a catch-all **Other** category for anything environmental that doesn't
+fit those three) — pulled automatically from multiple sites, refreshed twice a day,
+with a highlight for anything that mentions Summer 2027.
 
 **Live site:** https://joshuam0y.github.io/conservation-climate-jobs/
 
-No sign-up, no app to install — just open the link. Filter by category with the sidebar
-nav, search by keyword, or check "Summer 2027 mentioned" to narrow down to postings that
-explicitly say so (most Summer 2027 postings won't open until later — the site is built
-to keep collecting them as they appear over the coming months, not just today).
+No sign-up, no app to install — just open the link. Switch between Jobs & Internships /
+Fellowships / Conferences with the tabs above the list, filter by category with the
+sidebar nav, search by keyword, or check "Summer 2027 mentioned" to narrow down to
+postings that explicitly say so (most Summer 2027 postings won't open until later — the
+site is built to keep collecting them as they appear over the coming months, not just
+today).
 
 Postdoctoral and PhD-required listings are excluded automatically, and so are literal
 VP/C-suite/Executive-Director titles — this is scoped for a Master's-level candidate.
@@ -34,6 +36,18 @@ hosted here beyond a short summary, so always apply on the real site.
   wildlife/fisheries biology roles.
 - [EcoJobs.com](https://ecojobs.com/) — plain HTML, scraped from its homepage listing
   grid (no working keyword search was found on this one).
+- **Conferences** are handled differently: `pull/conferences.py` is a small, manually
+  curated, periodically-updated list, not a live scraper. Conferences are infrequent,
+  mostly-annual events announced months ahead, a wrong date here is worse than a stale
+  job listing, and the one general-purpose conference directory checked (Clocate.com)
+  mixed real, relevant results with a lot of noise from unrelated fields sharing the
+  same acronyms — not reliable enough to trust unsupervised. Every entry was verified
+  via a live search when added; re-verify dates periodically and add more directly to
+  that file.
+
+A job or fellowship title with the word "fellow"/"fellowship" in it is automatically
+classified as a Fellowship instead of a Job — everything else from the four scraped
+sources is a Job/Internship by default.
 
 Not every legitimate-looking job board made the cut. LinkedIn and Handshake are
 deliberately excluded: LinkedIn's terms of service explicitly prohibit automated

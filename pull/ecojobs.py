@@ -18,7 +18,7 @@ scraper here.
 import requests
 from bs4 import BeautifulSoup
 
-from categorize import categorize, is_internship_like, is_postdoc_or_phd, is_senior_level, mentions_2027
+from categorize import categorize, is_fellowship_title, is_internship_like, is_postdoc_or_phd, is_senior_level, mentions_2027
 
 HOME_URL = "https://ecojobs.com/"
 
@@ -87,6 +87,7 @@ def fetch():
                 "close_date": None,
                 "summer_2027": mentions_2027(title, combined),
                 "internship_tag": is_internship_like(title, combined),
+                "content_type": "fellowship" if is_fellowship_title(title) else "job",
             }
         )
 

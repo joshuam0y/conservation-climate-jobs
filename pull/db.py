@@ -42,5 +42,20 @@ def init_db():
         )
         """
     )
+    # Lightweight migration for columns added after the table already
+    # existed in production (this repo's own listings.db is committed to
+    # git, not rebuilt from scratch) -- same pattern as monitor.db in a
+    # sibling project. content_type distinguishes a job/internship
+    # posting from a fellowship or a conference; event_start/event_end
+    # are conference-only (a job's timeline is posted_date/close_date,
+    # a conference's is when it actually happens).
+    existing_cols = {row["name"] for row in conn.execute("PRAGMA table_info(listings)")}
+    for col, ddl in [
+        ("content_type", "TEXT NOT NULL DEFAULT 'job'"),
+        ("event_start", "TEXT"),
+        ("event_end", "TEXT"),
+    ]:
+        if col not in existing_cols:
+            conn.execute(f"ALTER TABLE listings ADD COLUMN {col} {ddl}")
     conn.commit()
     conn.close()
